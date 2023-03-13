@@ -33,7 +33,7 @@ const SignInPage = () => {
       lastName: signinData.lastName,
       password: signinData.password
     }
-    const data = await fetch("https://car-rental-app-backend.vercel.app/api/auth/signin",
+    const data = await fetch("https://car-rental-backend-xi.vercel.app/api/auth/signin",
       {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
