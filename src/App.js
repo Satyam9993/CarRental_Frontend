@@ -7,8 +7,6 @@ import LoginPage from './components/Auth/LoginPage';
 import SignInPage from './components/Auth/SignInPage';
 import HomePage from './components/Home/HomePage';
 
-
-
 const router = createBrowserRouter([
   {
     path: "/",
