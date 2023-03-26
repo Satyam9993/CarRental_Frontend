@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom';
-const Car_icon = require("../imgs/CarGif.gif");
+const Car_icon = require("./imgs/CarGif.gif");
 
 export default function Header({
     heading,

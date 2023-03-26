@@ -7,6 +7,10 @@
   pointer-events: none;
 }
 
+.wrapper{
+  height: 0px;
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .App-logo {
     animation: App-logo-spin infinite 20s linear;
@@ -41,21 +45,6 @@ html {
   height: 100%;
   overflow: hidden;
   background: radial-gradient(ellipse at bottom, #1b2735 0%,#090a0f 100%);
-}
-
-#sun {
-  margin-top: -600px;
-  text-align: center;
-}
-#sun img {
-  width: 60%;
-}
-#mercury {
-  margin-top: 280px;
-  text-align: center;
-}
-#mercury img {
-  width: 10%;
 }
 #dist {
   position: absolute;
