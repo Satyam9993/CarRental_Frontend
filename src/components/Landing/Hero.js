@@ -1,18 +1,19 @@
 import React from 'react';
 import {useNavigate} from 'react-router-dom';
+const car =  require("./car.png")
 
 export default function Hero() {
   const Navigate = useNavigate();
   return (
-    <section class="text-gray-400 bg-gray-900 body-font">
-      <div class="container mx-auto flex flex-col px-5 py-24 justify-center items-center">
+    <section class="text-gray-400 bg-gray-0 body-font h-full">
+      <div class="container mx-auto flex flex-col px-5 py-20 justify-center items-center">
         <img
           class="lg:w-2/6 md:w-3/6 w-5/6 mb-10 object-cover object-center rounded"
           alt="hero"
-          src="https://lh3.googleusercontent.com/2CbLNiOS2w0xR0mVgXjaLP31jx4qoDAnrGMw88aYqp7D8EVaxPHVfDv-DNJMerVoaRAKnnKy4y7A40w05q0HjYLt5ArrXT7x6aavVuc"
+          src= {car}
         />
-        <div class="w-full md:w-2/3 flex flex-col mb-16 items-center text-center">
-          <h1 class="title-font sm:text-4xl text-3xl mb-4 font-medium text-white">
+        <div class="w-full md:w-2/3 flex flex-col items-center text-center">
+          <h1 class="title-font sm:text-4xl text-3xl mb-2 font-medium text-white">
             START YOUR JOURNEY
           </h1>
           <p class="mb-8 leading-relaxed">
