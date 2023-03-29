@@ -15,11 +15,9 @@ import Landing from './pages/Landing';
 function App(){
   return(
     <body>
-    {/* <section class="wrapper">
+    <section class="wrapper">
         <div id="stars"></div>
-        <div id="stars2"></div>
-        <div id="stars3"></div>
-    </section> */}
+    </section>
     <BrowserRouter>
         <Routes>
             <Route path="/" element={<Landing/>} />

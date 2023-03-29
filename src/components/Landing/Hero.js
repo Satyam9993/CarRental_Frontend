@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section class="text-gray-400 bg-gray-0 body-font h-full">
       <div class="container mx-auto flex flex-col px-5 py-20 justify-center items-center">
-        <img
+        <img style={{zIndex:1}}
           class="lg:w-2/6 md:w-3/6 w-5/6 mb-10 object-cover object-center rounded"
           alt="hero"
           src= {car}

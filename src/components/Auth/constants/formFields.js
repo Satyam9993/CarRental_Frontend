@@ -5,7 +5,7 @@ const loginFields=[
         id:"email-address",
         name:"email",
         type:"email",
-        autoComplete:"email",
+        autoComplete:"off",
         isRequired:true,
         placeholder:"Email address"   
     },
@@ -15,7 +15,7 @@ const loginFields=[
         id:"password",
         name:"password",
         type:"password",
-        autoComplete:"current-password",
+        autoComplete:"off",
         isRequired:true,
         placeholder:"Password"   
     }
