@@ -3,35 +3,33 @@ import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setLogin } from "../../reducer/index";
 import './LoginPage.css';
+import * as Yup from 'yup';
+import { Formik } from 'formik';
 
+
+const RegisterSchema = Yup.object().shape({
+  firstName: Yup.string().required("First Name is Required").min(4, "Min length 4 chars").max(16, "Max length 16 chars"),
+  lastName: Yup.string().required("Last Name is Required").min(4, "Min length 4 chars").max(16, "Max length 16 chars"),
+  email: Yup.string().email().required("Email is Required"),
+  password: Yup.string()
+    .min(4, 'Should be at least 4')
+    .max(16, 'Should be at most 16')
+    .required('password is Required!!'),
+  });
 
 const SignInPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const [isLogin, setIsLogin] = useState(false);
-  const [isemailsend, setIsemailsend] = useState(false);
-  const [logincrudentional, setLogincrudentional] = useState({ email: "", password: "" });
-  const [signinData, setSigninData] = useState({ email: "", firstName: "", lastName: "", password: "" });
-  const [otp, setOtp] = useState("")
-
-  const handleonChangeLogin = (e) => {
-    setLogincrudentional({ ...logincrudentional, [e.target.name]: e.target.value });
-  }
-
-  const handleonChangeSignIn = (e) => {
-    setSigninData({ ...signinData, [e.target.name]: e.target.value });
-  }
-
-  const handleSignIn = async () => {
-    if(!signinData.email || !signinData.firstName || !signinData.lastName || !signinData.password){
+  const handleSignIn = async (values) => {
+    if (!values.email || !values.firstName || !values.lastName || !values.password) {
       alert("Error")
     }
     const body = {
-      email: signinData.email,
-      firstName: signinData.firstName,
-      lastName: signinData.lastName,
-      password: signinData.password
+      email: values.email,
+      firstName: values.firstName,
+      lastName: values.lastName,
+      password: values.password
     }
     const data = await fetch("https://car-rental-backend-xi.vercel.app/api/auth/signin",
       {
@@ -41,243 +39,181 @@ const SignInPage = () => {
       }
     );
     const signin = await data.json();
-    if(signin){
-      setIsemailsend(true);
+    if (signin) {
+      alert("email is send")
     }
   }
 
-  const handleVerifyotp = async () => {
-    if(!signinData.email || !otp ){
-      alert("Error")
-    }
-    const body = {
-      email: signinData.email,
-      otp : otp
-    }
-    const data = await fetch("https://car-rental-app-backend.vercel.app/api/auth/verifyotp",
-      {
-        method: 'POST',
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(body)
-      }
-    );
-    const virifiedData = await data.json();
-    dispatch(setLogin({
-      user : virifiedData.userId,
-      token : virifiedData.token
-    }))
-    navigate("/");
-    signinData({email : "", password : "", firstName : "", lastName : ""});
-  }
+  // const handleVerifyotp = async () => {
+  //   if (!signinData.email || !otp) {
+  //     alert("Error")
+  //   }
+  //   const body = {
+  //     email: signinData.email,
+  //     otp: otp
+  //   }
+  //   const data = await fetch("https://car-rental-app-backend.vercel.app/api/auth/verifyotp",
+  //     {
+  //       method: 'POST',
+  //       headers: { "Content-Type": "application/json" },
+  //       body: JSON.stringify(body)
+  //     }
+  //   );
+  //   const virifiedData = await data.json();
+  //   dispatch(setLogin({
+  //     user: virifiedData.userId,
+  //     token: virifiedData.token
+  //   }))
+  //   navigate("/");
+  //   signinData({ email: "", password: "", firstName: "", lastName: "" });
+  // }
+
+
+
 
   return (
-    <div className="relative min-h-screen flex">
-      <div className="flex flex-col sm:flex-row items-center md:items-start sm:justify-center md:justify-start flex-auto min-w-0 bg-white">
-        <div
-          className="sm:w-1/2 xl:w-2/5 h-full hidden md:flex flex-auto items-center justify-start p-10 overflow-hidden bg-purple-900 text-white bg-no-repeat bg-cover relative"
-          style={{ backgroundImage: `url('https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=600')` }}
-        >
-          <div className="absolute bg-gradient-to-b from-blue-900 to-gray-900 opacity-75 inset-0 z-0"></div>
-          <div className="absolute triangle  min-h-screen right-0 w-16"></div>
-          <a href="https://codepen.io/uidesignhub" target="_blank" title="codepen aji" className="flex absolute top-5 text-center text-gray-100 focus:outline-none">
-            <img src="/storage/avatars/njkIbPhyZCftc4g9XbMWwVsa7aGVPajYLRXhEeoo.jpg" alt="aji" className="object-cover mx-auto w-8 h-8 rounded-full w-10 h-10" /><p className="text-xl ml-3">aji<strong>mon</strong></p> </a>
-          <img src="https://jasper-pimstorage-skullcandy.s3.us-west-1.amazonaws.com/bd2253a9671dac36a95faf821b52e78935050140be1718ce001f6aace45cf25c.png" className="h-96 absolute right-5 mr-5" />
-          <div className="w-full  max-w-md z-10">
-            <div className="sm:text-4xl xl:text-5xl font-bold leading-tight mb-6">Reference site about Lorem Ipsum..</div>
-            <div className="sm:text-sm xl:text-md text-gray-200 font-normal"> What is Lorem Ipsum Lorem Ipsum is simply dummy
-              text of the printing and typesetting industry Lorem Ipsum has been the industry's standard dummy text ever
-              since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book it
-              has?</div>
-          </div>
-          <ul className="circles">
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-          </ul>
-        </div>
-        <div className="md:flex md:items-center md:justify-center w-full sm:w-auto md:h-full w-2/5 xl:w-2/5 p-8 md:pt-0 md:pb-0  md:p-10 lg:p-14 lg:pt-0 lg:pb-0 sm:rounded-lg md:rounded-none bg-white ">
-          <div className="max-w-md w-full space-y-0">
-            <div className="text-center">
-              <h2 className="mt-6 text-3xl font-bold text-gray-900">
-                Welcom Back!
-              </h2>
-              <p className="mt-2 text-sm text-gray-500">Please sign in to your account</p>
+    <>
+      <div className="min-w-screen min-h-screen bg-gray-900 flex items-center justify-center px-5 py-5">
+        <div className="bg-gray-100 text-gray-500 rounded-3xl shadow-xl w-full overflow-hidden" style={{ maxWidth: "1000px" }}>
+          <div className="md:flex w-full">
+            <div className="hidden md:block w-1/2 bg-indigo-500 py-10 px-10">
+              <svg id="a87032b8-5b37-4b7e-a4d9-4dbfbe394641" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" viewBox="0 0 744.84799 747.07702"><path id="fa3b9e12-7275-481e-bee9-64fd9595a50d" data-name="Path 1" d="M299.205,705.80851l-6.56-25.872a335.96693,335.96693,0,0,0-35.643-12.788l-.828,12.024-3.358-13.247c-15.021-4.29394-25.24-6.183-25.24-6.183s13.8,52.489,42.754,92.617l33.734,5.926-26.207,3.779a135.92592,135.92592,0,0,0,11.719,12.422c42.115,39.092,89.024,57.028,104.773,40.06s-5.625-62.412-47.74-101.5c-13.056-12.119-29.457-21.844-45.875-29.5Z" transform="translate(-227.576 -76.46149)" fill="#f2f2f2" /><path id="bde08021-c30f-4979-a9d8-cb90b72b5ca2" data-name="Path 2" d="M361.591,677.70647l7.758-25.538a335.93951,335.93951,0,0,0-23.9-29.371l-6.924,9.865,3.972-13.076c-10.641-11.436-18.412-18.335-18.412-18.335s-15.315,52.067-11.275,101.384l25.815,22.51-24.392-10.312a135.91879,135.91879,0,0,0,3.614,16.694c15.846,55.234,46.731,94.835,68.983,88.451s27.446-56.335,11.6-111.569c-4.912-17.123-13.926-33.926-24.023-48.965Z" transform="translate(-227.576 -76.46149)" fill="#f2f2f2" /><path id="b3ac2088-de9b-4f7f-bc99-0ed9705c1a9d" data-name="Path 22" d="M747.327,253.4445h-4.092v-112.1a64.883,64.883,0,0,0-64.883-64.883H440.845a64.883,64.883,0,0,0-64.883,64.883v615a64.883,64.883,0,0,0,64.883,64.883H678.352a64.883,64.883,0,0,0,64.882-64.883v-423.105h4.092Z" transform="translate(-227.576 -76.46149)" fill="#e6e6e6" /><path id="b2715b96-3117-487c-acc0-20904544b5b7" data-name="Path 23" d="M680.97,93.3355h-31a23.02,23.02,0,0,1-21.316,31.714H492.589a23.02,23.02,0,0,1-21.314-31.714H442.319a48.454,48.454,0,0,0-48.454,48.454v614.107a48.454,48.454,0,0,0,48.454,48.454H680.97a48.454,48.454,0,0,0,48.454-48.454h0V141.7885a48.454,48.454,0,0,0-48.454-48.453Z" transform="translate(-227.576 -76.46149)" fill="#fff" /><path id="b06d66ec-6c84-45dd-8c27-1263a6253192" data-name="Path 6" d="M531.234,337.96451a24.437,24.437,0,0,1,12.23-21.174,24.45,24.45,0,1,0,0,42.345A24.43391,24.43391,0,0,1,531.234,337.96451Z" transform="translate(-227.576 -76.46149)" fill="#ccc" /><path id="e73810fe-4cf4-40cc-8c7c-ca544ce30bd4" data-name="Path 7" d="M561.971,337.96451a24.43594,24.43594,0,0,1,12.23-21.174,24.45,24.45,0,1,0,0,42.345A24.43391,24.43391,0,0,1,561.971,337.96451Z" transform="translate(-227.576 -76.46149)" fill="#ccc" /><circle id="a4813fcf-056e-4514-bb8b-e6506f49341f" data-name="Ellipse 1" cx="364.43401" cy="261.50202" r="24.45" fill="#6c63ff" /><path id="bbe451c3-febc-41ba-8083-4c8307a2e73e" data-name="Path 8" d="M632.872,414.3305h-142.5a5.123,5.123,0,0,1-5.117-5.117v-142.5a5.123,5.123,0,0,1,5.117-5.117h142.5a5.123,5.123,0,0,1,5.117,5.117v142.5A5.123,5.123,0,0,1,632.872,414.3305Zm-142.5-150.686a3.073,3.073,0,0,0-3.07,3.07v142.5a3.073,3.073,0,0,0,3.07,3.07h142.5a3.073,3.073,0,0,0,3.07-3.07v-142.5a3.073,3.073,0,0,0-3.07-3.07Z" transform="translate(-227.576 -76.46149)" fill="#ccc" /><rect id="bb28937d-932f-4fdf-befe-f406e51091fe" data-name="Rectangle 1" x="218.56201" y="447.10197" width="218.552" height="2.047" fill="#ccc" /><circle id="fcef55fc-4968-45b2-93bb-1a1080c85fc7" data-name="Ellipse 2" cx="225.46401" cy="427.41999" r="6.902" fill="#6c63ff" /><rect id="ff33d889-4c74-4b91-85ef-b4882cc8fe76" data-name="Rectangle 2" x="218.56201" y="516.11803" width="218.552" height="2.047" fill="#ccc" /><circle id="e8fa0310-b872-4adf-aedd-0c6eda09f3b8" data-name="Ellipse 3" cx="225.46401" cy="496.43702" r="6.902" fill="#6c63ff" /><path d="M660.69043,671.17188H591.62207a4.50493,4.50493,0,0,1-4.5-4.5v-24.208a4.50492,4.50492,0,0,1,4.5-4.5h69.06836a4.50491,4.50491,0,0,1,4.5,4.5v24.208A4.50492,4.50492,0,0,1,660.69043,671.17188Z" transform="translate(-227.576 -76.46149)" fill="#6c63ff" /><circle id="e12ee00d-aa4a-4413-a013-11d20b7f97f7" data-name="Ellipse 7" cx="247.97799" cy="427.41999" r="6.902" fill="#6c63ff" /><circle id="f58f497e-6949-45c8-be5f-eee2aa0f6586" data-name="Ellipse 8" cx="270.492" cy="427.41999" r="6.902" fill="#6c63ff" /><circle id="b4d4939a-c6e6-4f4d-ba6c-e8b05485017d" data-name="Ellipse 9" cx="247.97799" cy="496.43702" r="6.902" fill="#6c63ff" /><circle id="aff120b1-519b-4e96-ac87-836aa55663de" data-name="Ellipse 10" cx="270.492" cy="496.43702" r="6.902" fill="#6c63ff" /><path id="f1094013-1297-477a-ac57-08eac07c4bd5" data-name="Path 88" d="M969.642,823.53851H251.656c-1.537,0-2.782-.546-2.782-1.218s1.245-1.219,2.782-1.219H969.642c1.536,0,2.782.546,2.782,1.219S971.178,823.53851,969.642,823.53851Z" transform="translate(-227.576 -76.46149)" fill="#3f3d56" /><path d="M792.25256,565.92292a10.09371,10.09371,0,0,1,1.41075.78731l44.8523-19.14319,1.60093-11.81526,17.92157-.10956-1.05873,27.0982-59.19987,15.65584a10.60791,10.60791,0,0,1-.44749,1.20835,10.2346,10.2346,0,1,1-5.07946-13.68169Z" transform="translate(-227.576 -76.46149)" fill="#ffb8b8" /><polygon points="636.98 735.021 624.72 735.021 618.888 687.733 636.982 687.734 636.98 735.021" fill="#ffb8b8" /><path d="M615.96281,731.51778h23.64387a0,0,0,0,1,0,0v14.88687a0,0,0,0,1,0,0H601.076a0,0,0,0,1,0,0v0A14.88686,14.88686,0,0,1,615.96281,731.51778Z" fill="#2f2e41" /><polygon points="684.66 731.557 672.459 732.759 662.018 686.271 680.025 684.497 684.66 731.557" fill="#ffb8b8" /><path d="M891.68576,806.12757h23.64387a0,0,0,0,1,0,0v14.88687a0,0,0,0,1,0,0H876.7989a0,0,0,0,1,0,0v0A14.88686,14.88686,0,0,1,891.68576,806.12757Z" transform="translate(-303.00873 15.2906) rotate(-5.62529)" fill="#2f2e41" /><circle cx="640.3925" cy="384.57375" r="24.56103" fill="#ffb8b8" /><path d="M849.55636,801.91945a4.47086,4.47086,0,0,1-4.415-3.69726c-6.34571-35.22559-27.08789-150.40528-27.584-153.59571a1.42684,1.42684,0,0,1-.01562-.22168v-8.58789a1.489,1.489,0,0,1,.27929-.87207l2.74024-3.83789a1.47845,1.47845,0,0,1,1.14355-.625c15.62207-.73242,66.78418-2.8789,69.25586.209h0c2.48242,3.10351,1.60547,12.50683,1.4043,14.36035l.00977.19336,22.98535,146.99512a4.51238,4.51238,0,0,1-3.71485,5.13476l-14.35644,2.36524a4.52127,4.52127,0,0,1-5.02539-3.09278c-4.44043-14.18847-19.3291-61.918-24.48926-80.38672a.49922.49922,0,0,0-.98047.13868c.25781,17.60546.88086,62.52343,1.0957,78.0371l.02344,1.6709a4.51811,4.51811,0,0,1-4.09277,4.53614l-13.84375,1.25781C849.83565,801.91359,849.695,801.91945,849.55636,801.91945Z" transform="translate(-227.576 -76.46149)" fill="#2f2e41" /><path id="ae7af94f-88d7-4204-9f07-e3651de85c05" data-name="Path 99" d="M852.38089,495.2538c-4.28634,2.548-6.85116,7.23043-8.32276,11.9951a113.681,113.681,0,0,0-4.88444,27.15943l-1.55553,27.60021-19.25508,73.1699c16.68871,14.1207,26.31542,10.91153,48.78049-.63879s25.03222,3.85117,25.03222,3.85117l4.49236-62.25839,6.41837-68.03232a30.16418,30.16418,0,0,0-4.86143-4.67415,49.65848,49.65848,0,0,0-42.44229-8.99538Z" transform="translate(-227.576 -76.46149)" fill="#ffffff" /><path d="M846.12661,580.70047a10.52561,10.52561,0,0,1,1.50061.70389l44.34832-22.1972.736-12.02551,18.2938-1.26127.98041,27.4126L852.7199,592.93235a10.4958,10.4958,0,1,1-6.59329-12.23188Z" transform="translate(-227.576 -76.46149)" fill="#ffb8b8" /><path id="a6768b0e-63d0-4b31-8462-9b2e0b00f0fd" data-name="Path 101" d="M902.76552,508.41151c10.91151,3.85117,12.83354,45.57369,12.83354,45.57369-12.8367-7.06036-28.24139,4.49318-28.24139,4.49318s-3.20916-10.91154-7.06034-25.03223a24.52987,24.52987,0,0,1,5.13436-23.10625S891.854,504.558,902.76552,508.41151Z" transform="translate(-227.576 -76.46149)" fill="#ffffff" /><path id="bfd7963f-0cf8-4885-9d3a-2c00bccda2e3" data-name="Path 102" d="M889.99122,467.53052c-3.06-2.44837-7.23517,2.00173-7.23517,2.00173l-2.4484-22.03349s-15.30095,1.8329-25.0935-.61161-11.32255,8.87513-11.32255,8.87513a78.57978,78.57978,0,0,1-.30582-13.77092c.61158-5.50838,8.56838-11.01675,22.6451-14.68932S887.6518,439.543,887.6518,439.543C897.44542,444.43877,893.05121,469.97891,889.99122,467.53052Z" transform="translate(-227.576 -76.46149)" fill="#2f2e41" /></svg>
             </div>
-            <div className="flex flex-row justify-center items-center space-x-3">
-              <a href="https://www.behance.net/ajeeshmon" target="_blank" className="w-11 h-11 items-center justify-center inline-flex rounded-2xl font-bold text-lg   bg-blue-900 hover:shadow-lg cursor-pointer transition ease-in duration-300">
-                <img className="w-4 h-4" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIiBjbGFzcz0iIj48Zz48cGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGQ9Im0xNS45OTcgMy45ODVoMi4xOTF2LTMuODE2Yy0uMzc4LS4wNTItMS42NzgtLjE2OS0zLjE5Mi0uMTY5LTMuMTU5IDAtNS4zMjMgMS45ODctNS4zMjMgNS42Mzl2My4zNjFoLTMuNDg2djQuMjY2aDMuNDg2djEwLjczNGg0LjI3NHYtMTAuNzMzaDMuMzQ1bC41MzEtNC4yNjZoLTMuODc3di0yLjkzOWMuMDAxLTEuMjMzLjMzMy0yLjA3NyAyLjA1MS0yLjA3N3oiIGZpbGw9IiNmZmZmZmYiIGRhdGEtb3JpZ2luYWw9IiMwMDAwMDAiIHN0eWxlPSIiIGNsYXNzPSIiPjwvcGF0aD48L2c+PC9zdmc+" />
-              </a>
-              <a href="https://twitter.com/ajeemon?lang=en" target="_blank" className="w-11 h-11 items-center justify-center inline-flex rounded-2xl font-bold text-lg  text-white bg-blue-400 hover:shadow-lg cursor-pointer transition ease-in duration-300"><img className="w-4 h-4" src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDY4MS4zMzQ2NCA2ODEiIHN0eWxlPSJlbmFibGUtYmFja2dyb3VuZDpuZXcgMCAwIDUxMiA1MTIiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxnPjxwYXRoIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZD0ibTIwMC45NjQ4NDQgNTE1LjI5Mjk2OWMyNDEuMDUwNzgxIDAgMzcyLjg3MTA5NC0xOTkuNzAzMTI1IDM3Mi44NzEwOTQtMzcyLjg3MTA5NCAwLTUuNjcxODc1LS4xMTcxODgtMTEuMzIwMzEzLS4zNzEwOTQtMTYuOTM3NSAyNS41ODU5MzctMTguNSA0Ny44MjQyMTgtNDEuNTg1OTM3IDY1LjM3MTA5NC02Ny44NjMyODEtMjMuNDgwNDY5IDEwLjQ0MTQwNi00OC43NTM5MDcgMTcuNDYwOTM3LTc1LjI1NzgxMyAyMC42MzY3MTggMjcuMDU0Njg3LTE2LjIzMDQ2OCA0Ny44MjgxMjUtNDEuODk0NTMxIDU3LjYyNS03Mi40ODgyODEtMjUuMzIwMzEzIDE1LjAxMTcxOS01My4zNjMyODEgMjUuOTE3OTY5LTgzLjIxNDg0NCAzMS44MDg1OTQtMjMuOTE0MDYyLTI1LjQ3MjY1Ni01Ny45NjQ4NDMtNDEuNDAyMzQ0LTk1LjY2NDA2Mi00MS40MDIzNDQtNzIuMzY3MTg4IDAtMTMxLjA1ODU5NCA1OC42ODc1LTEzMS4wNTg1OTQgMTMxLjAzMTI1IDAgMTAuMjg5MDYzIDEuMTUyMzQ0IDIwLjI4OTA2MyAzLjM5ODQzNyAyOS44ODI4MTMtMTA4LjkxNzk2OC01LjQ4MDQ2OS0yMDUuNTAzOTA2LTU3LjYyNS0yNzAuMTMyODEyLTEzNi45MjE4NzUtMTEuMjUgMTkuMzYzMjgxLTE3Ljc0MjE4OCA0MS44NjMyODEtMTcuNzQyMTg4IDY1Ljg3MTA5MyAwIDQ1LjQ2MDkzOCAyMy4xMzY3MTkgODUuNjA1NDY5IDU4LjMxNjQwNyAxMDkuMDgyMDMyLTIxLjUtLjY2MDE1Ni00MS42OTUzMTMtNi41NjI1LTU5LjM1MTU2My0xNi4zODY3MTktLjAxOTUzMS41NTA3ODEtLjAxOTUzMSAxLjA4NTkzNy0uMDE5NTMxIDEuNjcxODc1IDAgNjMuNDY4NzUgNDUuMTcxODc1IDExNi40NjA5MzggMTA1LjE0NDUzMSAxMjguNDY4NzUtMTEuMDE1NjI1IDIuOTk2MDk0LTIyLjYwNTQ2OCA0LjYwOTM3NS0zNC41NTg1OTQgNC42MDkzNzUtOC40Mjk2ODcgMC0xNi42NDg0MzctLjgyODEyNS0yNC42MzI4MTItMi4zNjMyODEgMTYuNjgzNTk0IDUyLjA3MDMxMiA2NS4wNjY0MDYgODkuOTYwOTM3IDEyMi40MjU3ODEgOTEuMDIzNDM3LTQ0Ljg1NTQ2OSAzNS4xNTYyNS0xMDEuMzU5Mzc1IDU2LjA5NzY1Ny0xNjIuNzY5NTMxIDU2LjA5NzY1Ny0xMC41NjI1IDAtMjEuMDAzOTA2LS42MDU0NjktMzEuMjYxNzE4OC0xLjgxNjQwNyA1Ny45OTk5OTk4IDM3LjE3NTc4MSAxMjYuODcxMDkzOCA1OC44NzEwOTQgMjAwLjg4NjcxODggNTguODcxMDk0IiBmaWxsPSIjZmZmZmZmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIj48L3BhdGg+PC9nPjwvc3ZnPg==" /></a>
-              <a href="https://in.linkedin.com/in/ajeeshmon" target="_blank" className="w-11 h-11 items-center justify-center inline-flex rounded-2xl font-bold text-lg  text-white bg-blue-500 hover:shadow-lg cursor-pointer transition ease-in duration-300"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZlcnNpb249IjEuMSIgeG1sbnM6eGxpbms9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGxpbmsiIHhtbG5zOnN2Z2pzPSJodHRwOi8vc3ZnanMuY29tL3N2Z2pzIiB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgeD0iMCIgeT0iMCIgdmlld0JveD0iMCAwIDI0IDI0IiBzdHlsZT0iZW5hYmxlLWJhY2tncm91bmQ6bmV3IDAgMCA1MTIgNTEyIiB4bWw6c3BhY2U9InByZXNlcnZlIj48Zz48cGF0aCB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGQ9Im0yMy45OTQgMjR2LS4wMDFoLjAwNnYtOC44MDJjMC00LjMwNi0uOTI3LTcuNjIzLTUuOTYxLTcuNjIzLTIuNDIgMC00LjA0NCAxLjMyOC00LjcwNyAyLjU4N2gtLjA3di0yLjE4NWgtNC43NzN2MTYuMDIzaDQuOTd2LTcuOTM0YzAtMi4wODkuMzk2LTQuMTA5IDIuOTgzLTQuMTA5IDIuNTQ5IDAgMi41ODcgMi4zODQgMi41ODcgNC4yNDN2Ny44MDF6IiBmaWxsPSIjZmZmZmZmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIj48L3BhdGg+PHBhdGggeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiBkPSJtLjM5NiA3Ljk3N2g0Ljk3NnYxNi4wMjNoLTQuOTc2eiIgZmlsbD0iI2ZmZmZmZiIgZGF0YS1vcmlnaW5hbD0iIzAwMDAwMCIgc3R5bGU9IiI+PC9wYXRoPjxwYXRoIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgZD0ibTIuODgyIDBjLTEuNTkxIDAtMi44ODIgMS4yOTEtMi44ODIgMi44ODJzMS4yOTEgMi45MDkgMi44ODIgMi45MDkgMi44ODItMS4zMTggMi44ODItMi45MDljLS4wMDEtMS41OTEtMS4yOTItMi44ODItMi44ODItMi44ODJ6IiBmaWxsPSIjZmZmZmZmIiBkYXRhLW9yaWdpbmFsPSIjMDAwMDAwIiBzdHlsZT0iIj48L3BhdGg+PC9nPjwvc3ZnPg==" className="w-4 h-4" /></a>
-            </div>
-            <div className="flex items-center justify-center space-x-2">
-              <span className="h-px w-16 bg-gray-200"></span>
-              <span className="text-gray-300 font-normal">or continue with</span>
-              <span className="h-px w-16 bg-gray-200"></span>
-            </div>
-            {
-              isLogin ?
-                <div className="mt-8 space-y-6">
-                  <input type="hidden" name="remember" value="true" />
-                  <div className="relative">
-                    <div className="absolute right-3 mt-4"><svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                    </svg>
-                    </div>
-                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Email</label>
-                    <input
-                      className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
-                      type="email"
-                      placeholder="mail@gmail.com"
-                    />
-                  </div>
-                  <div className="mt-8 content-center">
-                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                      Password
-                    </label>
-                    <input className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500" type="" placeholder="Enter your password" value="*****|" />
-                  </div>
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <input id="remember_me" name="remember_me" type="checkbox" className="h-4 w-4 bg-blue-500 focus:ring-blue-400 border-gray-300 rounded" />
-                      <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">
-                        Remember me
-                      </label>
-                    </div>
-                    <div className="text-sm">
-                      <a href="#" className="text-indigo-400 hover:text-blue-500">
-                        Forgot your password?
-                      </a>
-                    </div>
-                  </div>
+            <div className="w-full md:w-1/2 py-10 px-5 md:px-10">
+              <div className="text-center mb-10">
+                <h1 className="font-bold text-3xl text-gray-900">REGISTER</h1>
+                <p>Enter your information to register</p>
+              </div>
+              <Formik
+                initialValues={{ firstName: '', lastName : '', email: '', password: '' }}
+                validationSchema={RegisterSchema}
+                onSubmit={(values) => {
+                  console.log(values);
+                  handleSignIn(values);
+                }}
+              >
+                {({
+                  values,
+                  errors,
+                  touched,
+                  handleChange,
+                  handleSubmit
+                }) => (
                   <div>
-                    <button type="submit" className="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600  hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500">
-                      Login in
-                    </button>
-                  </div>
-                  <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
-                    <span>Don't have an account?</span>
-                    <a href="#" className="text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300">Sign
-                      up</a>
-                  </p>
-                </div>
-                :
-                <div className="mt-4 space-y-6">
-                  <input type="hidden" name="remember" value="true" />
-                  <div className="relative">
-                    <div className="absolute right-3 mt-4">
-                      {/* <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
-                        </svg> */}
+                    <div className="flex -mx-3">
+                      <div className="w-1/2 px-3 mb-5">
+                        <label className="text-xs font-semibold px-1">First name</label>
+                        <div className="flex">
+                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                            {/* icon */}
+                          </div>
+                          <input
+                            type="text"
+                            className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-1 border-gray-200 outline-none focus:border-indigo-500"
+                            onChange={handleChange('firstName')}
+                            value={values.firstName}
+                            placeholder="John"
+                          />
+                        </div>
+                          {touched.firstName && errors.firstName && (
+                            <p className="text-[#ff0d10]">
+                              {errors.firstName}
+                            </p>
+                          )}
+                      </div>
+                      <div className="w-1/2 px-3 mb-5">
+                        <label className="text-xs font-semibold px-1">Last name</label>
+                        <div className="flex">
+                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                           {/* icon */}
+                          </div>
+                          <input 
+                          type="text" 
+                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" 
+                          onChange={handleChange('lastName')}
+                          value={values.lastName}
+                          placeholder="Smith" 
+                          />
+                        </div>
+                        {touched.lastName && errors.lastName && (
+                            <p className="text-[#ff0d10]">
+                              {errors.lastName}
+                            </p>
+                        )}
+                      </div>
                     </div>
-                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">Email</label>
-                    <input
-                      className=" w-full text-base px-4 py-2 border-b border-gray-300 focus:outline-none rounded-2xl focus:border-indigo-500"
-                      type="email"
-                      placeholder="mail@gmail.com"
-                      name="email"
-                      onChange={handleonChangeSignIn}
-                      disabled={isemailsend}
-                    />
-                  </div>
-                  <div className="mt-4 content-center">
-                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                      FirstName
-                    </label>
-                    <input
-                      className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
-                      type="text"
-                      placeholder="Enter your FirstName"
-                      disabled={isemailsend}
-                      name="firstName"
-                      onChange={handleonChangeSignIn}
-                    />
-                  </div>
-                  <div className="mt-4 content-center">
-                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                      LastName
-                    </label>
-                    <input
-                      className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
-                      type="text"
-                      placeholder="Enter your LastName"
-                      disabled={isemailsend}
-                      name="lastName"
-                      onChange={handleonChangeSignIn}
-                    />
-                  </div>
-                  <div className="mt-4 content-center">
-                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                      Password
-                    </label>
-                    <input
-                      className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
-                      type="password"
-                      placeholder="Enter your password"
-                      disabled={isemailsend}
-                      name="password"
-                      onChange={handleonChangeSignIn}
-                    />
-                  </div>
-                  {isemailsend && <div className="mt-4 content-center">
-                    <label className="ml-3 text-sm font-bold text-gray-700 tracking-wide">
-                      OTP
-                    </label>
-                    <input
-                      className="w-full content-center text-base px-4 py-2 border-b rounded-2xl border-gray-300 focus:outline-none focus:border-indigo-500"
-                      type="text"
-                      placeholder="Enter otp"
-                      name="opt"
-                      onChange={(e)=>setOtp(e.target.value)}
-                    />
-                  </div>}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center">
-                      <input id="remember_me" name="remember_me" type="checkbox" className="h-4 w-4 bg-blue-500 focus:ring-blue-400 border-gray-300 rounded" />
-                      <label htmlFor="remember_me" className="ml-2 block text-sm text-gray-900">
-                        Remember me
-                      </label>
+                    <div className="flex -mx-3">
+                      <div className="w-full px-3 mb-5">
+                        <label className="text-xs font-semibold px-1">Email</label>
+                        <div className="flex">
+                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                           {/* icon */}  
+                          </div>
+                          <input 
+                          type="email" 
+                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" 
+                          placeholder="johnsmith@example.com" 
+                          onChange={handleChange('email')}
+                          value={values.email}
+                          />
+                        </div>
+                        {touched.email && errors.email && (
+                            <p className="text-[#ff0d10]">
+                              {errors.email}
+                            </p>
+                        )}
+                      </div>
                     </div>
-                    <div className="text-sm">
-                      <a href="#" className="text-indigo-400 hover:text-blue-500">
-                        Forgot your password?
-                      </a>
+                    <div className="flex -mx-3">
+                      <div className="w-full px-3 mb-12">
+                        <label className="text-xs font-semibold px-1">Password</label>
+                        <div className="flex">
+                          <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                             {/* icon */}
+                          </div>
+                          <input 
+                          type="password" 
+                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" 
+                          onChange={handleChange('password')}
+                          value={values.password}
+                          placeholder="************" 
+                          />
+                        </div>
+                          {touched.password && errors.password && (
+                            <p className="text-[#ff0d10]">
+                              {errors.password}
+                            </p>
+                          )}
+                      </div>
+                    </div>
+                    <div className="flex -mx-3">
+                      <div className="w-full px-3 mb-5">
+                        <button 
+                        className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+                        onClick={()=>{
+                          handleSubmit()
+                        }}
+                        >
+                        REGISTER NOW
+                        </button>
+                      </div>
                     </div>
                   </div>
-                  <div>
-                    {!isemailsend ? 
-                    <button
-                      className="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600  hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500"
-                      onClick={handleSignIn}
-                    >
-                      Sign in
-                    </button>
-                    : 
-                    <button
-                    className="w-full flex justify-center bg-gradient-to-r from-indigo-500 to-blue-600  hover:bg-gradient-to-l hover:from-blue-500 hover:to-indigo-600 text-gray-100 p-4  rounded-full tracking-wide font-semibold  shadow-lg cursor-pointer transition ease-in duration-500"
-                    onClick={handleVerifyotp}
-                  >
-                    Verify
-                  </button>
-                  }
-                  </div>
-                  <p className="flex flex-col items-center justify-center mt-10 text-center text-md text-gray-500">
-                    <span>Don't have an account?</span>
-                    <button className="text-indigo-400 hover:text-blue-500 no-underline hover:underline cursor-pointer transition ease-in duration-300" onClick={() => { setIsLogin(true) }}>Login</button>
-                  </p>
-                </div>
-            }
+                )}
+              </Formik>
+            </div>
           </div>
         </div>
       </div>
-    </div>
+
+      <div className="flex items-end justify-end fixed bottom-0 right-0 mb-4 mr-4 z-10">
+        <div>
+          <a title="Buy me a beer" href="https://www.buymeacoffee.com/scottwindon" target="_blank" className="block w-16 h-16 rounded-full transition-all shadow hover:shadow-lg transform hover:scale-110 hover:rotate-12">
+            <img className="object-cover object-center w-full h-full rounded-full" src="https://i.pinimg.com/originals/60/fd/e8/60fde811b6be57094e0abc69d9c2622a.jpg" />
+          </a>
+        </div>
+      </div>
+    </>
   );
 };
 
