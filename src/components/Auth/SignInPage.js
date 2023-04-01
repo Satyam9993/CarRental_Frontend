@@ -5,6 +5,7 @@ import { setLogin } from "../../reducer/index";
 import './LoginPage.css';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 
 const RegisterSchema = Yup.object().shape({
@@ -15,11 +16,15 @@ const RegisterSchema = Yup.object().shape({
     .min(4, 'Should be at least 4')
     .max(16, 'Should be at most 16')
     .required('password is Required!!'),
-  });
+});
 
 const SignInPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const [loginData, setLoginData] = useState({ firstName: '', lastName: '', email: '', password: '' });
+  const [isEmailSent, setIsEmailSent] = useState(false);
+  const [otp, setOtp] = useState("");
 
   const handleSignIn = async (values) => {
     if (!values.email || !values.firstName || !values.lastName || !values.password) {
@@ -31,7 +36,7 @@ const SignInPage = () => {
       lastName: values.lastName,
       password: values.password
     }
-    const data = await fetch("https://car-rental-backend-xi.vercel.app/api/auth/signin",
+    const data = await fetch(`${BACKEND_URL}/api/auth/signin`,
       {
         method: 'POST',
         headers: { "Content-Type": "application/json" },
@@ -41,34 +46,34 @@ const SignInPage = () => {
     const signin = await data.json();
     if (signin) {
       alert("email is send")
+      setLoginData(body);
+      setIsEmailSent(true);
     }
   }
 
-  // const handleVerifyotp = async () => {
-  //   if (!signinData.email || !otp) {
-  //     alert("Error")
-  //   }
-  //   const body = {
-  //     email: signinData.email,
-  //     otp: otp
-  //   }
-  //   const data = await fetch("https://car-rental-app-backend.vercel.app/api/auth/verifyotp",
-  //     {
-  //       method: 'POST',
-  //       headers: { "Content-Type": "application/json" },
-  //       body: JSON.stringify(body)
-  //     }
-  //   );
-  //   const virifiedData = await data.json();
-  //   dispatch(setLogin({
-  //     user: virifiedData.userId,
-  //     token: virifiedData.token
-  //   }))
-  //   navigate("/");
-  //   signinData({ email: "", password: "", firstName: "", lastName: "" });
-  // }
-
-
+  const handleVerifyotp = async () => {
+    if (!loginData.email || !otp) {
+      alert("Error")
+    }
+    const body = {
+      email: loginData.email,
+      otp: otp
+    }
+    const data = await fetch(`${BACKEND_URL}/api/auth/verifyotp`,
+      {
+        method: 'POST',
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(body)
+      }
+    );
+    const virifiedData = await data.json();
+    dispatch(setLogin({
+      user: virifiedData.userId,
+      token: virifiedData.token
+    }));
+    navigate("/");
+    setLoginData({ firstName: '', lastName: '', email: '', password: '' });
+  }
 
 
   return (
@@ -84,21 +89,138 @@ const SignInPage = () => {
                 <h1 className="font-bold text-3xl text-gray-900">REGISTER</h1>
                 <p>Enter your information to register</p>
               </div>
-              <Formik
-                initialValues={{ firstName: '', lastName : '', email: '', password: '' }}
-                validationSchema={RegisterSchema}
-                onSubmit={(values) => {
-                  console.log(values);
-                  handleSignIn(values);
-                }}
-              >
-                {({
-                  values,
-                  errors,
-                  touched,
-                  handleChange,
-                  handleSubmit
-                }) => (
+              {!isEmailSent ? (
+                <Formik
+                  initialValues={{ firstName: '', lastName: '', email: '', password: '' }}
+                  validationSchema={RegisterSchema}
+                  onSubmit={(values) => {
+                    console.log(values);
+                    handleSignIn(values);
+                  }}
+                >
+                  {({
+                    values,
+                    errors,
+                    touched,
+                    handleChange,
+                    handleSubmit
+                  }) => (
+                    <div>
+                      <div className="flex -mx-3">
+                        <div className="w-1/2 px-3 mb-5">
+                          <label className="text-xs font-semibold px-1">First name</label>
+                          <div className="flex">
+                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                              {/* icon */}
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                              </svg>
+                            </div>
+                            <input
+                              type="text"
+                              className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-1 border-gray-200 outline-none focus:border-indigo-500"
+                              onChange={handleChange('firstName')}
+                              value={values.firstName}
+                              placeholder="John"
+                            />
+                          </div>
+                          {touched.firstName && errors.firstName && (
+                            <p className="text-[#ff0d10]">
+                              {errors.firstName}
+                            </p>
+                          )}
+                        </div>
+                        <div className="w-1/2 px-3 mb-5">
+                          <label className="text-xs font-semibold px-1">Last name</label>
+                          <div className="flex">
+                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                              {/* icon */}
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                              </svg>
+                            </div>
+                            <input
+                              type="text"
+                              className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                              onChange={handleChange('lastName')}
+                              value={values.lastName}
+                              placeholder="Smith"
+                            />
+                          </div>
+                          {touched.lastName && errors.lastName && (
+                            <p className="text-[#ff0d10]">
+                              {errors.lastName}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex -mx-3">
+                        <div className="w-full px-3 mb-5">
+                          <label className="text-xs font-semibold px-1">Email</label>
+                          <div className="flex">
+                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                              {/* icon */}
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25" />
+                              </svg>
+                            </div>
+                            <input
+                              type="email"
+                              className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                              placeholder="johnsmith@example.com"
+                              onChange={handleChange('email')}
+                              value={values.email}
+                            />
+                          </div>
+                          {touched.email && errors.email && (
+                            <p className="text-[#ff0d10]">
+                              {errors.email}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex -mx-3">
+                        <div className="w-full px-3 mb-12">
+                          <label className="text-xs font-semibold px-1">Password</label>
+                          <div className="flex">
+                            <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
+                              {/* icon */}
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
+                              </svg>
+                            </div>
+                            <input
+                              type="password"
+                              className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                              onChange={handleChange('password')}
+                              value={values.password}
+                              placeholder="************"
+                            />
+                          </div>
+                          {touched.password && errors.password && (
+                            <p className="text-[#ff0d10]">
+                              {errors.password}
+                            </p>
+                          )}
+                        </div>
+                      </div>
+                      <div className="flex -mx-3">
+                        <div className="w-full px-3 mb-5">
+                          <button
+                            className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+                            onClick={() => {
+                              handleSubmit()
+                            }}
+                          >
+                            REGISTER NOW
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </Formik>
+              ) :
+                <>
                   <div>
                     <div className="flex -mx-3">
                       <div className="w-1/2 px-3 mb-5">
@@ -106,40 +228,34 @@ const SignInPage = () => {
                         <div className="flex">
                           <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
                             {/* icon */}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                            </svg>
                           </div>
                           <input
                             type="text"
-                            className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-1 border-gray-200 outline-none focus:border-indigo-500"
-                            onChange={handleChange('firstName')}
-                            value={values.firstName}
-                            placeholder="John"
+                            className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                            value={loginData.firstName}
+                            disabled={true}
                           />
                         </div>
-                          {touched.firstName && errors.firstName && (
-                            <p className="text-[#ff0d10]">
-                              {errors.firstName}
-                            </p>
-                          )}
                       </div>
                       <div className="w-1/2 px-3 mb-5">
                         <label className="text-xs font-semibold px-1">Last name</label>
                         <div className="flex">
                           <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                           {/* icon */}
+                            {/* icon */}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+                            </svg>
                           </div>
-                          <input 
-                          type="text" 
-                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" 
-                          onChange={handleChange('lastName')}
-                          value={values.lastName}
-                          placeholder="Smith" 
+                          <input
+                            type="text"
+                            className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                            value={loginData.lastName}
+                            disabled={true}
                           />
                         </div>
-                        {touched.lastName && errors.lastName && (
-                            <p className="text-[#ff0d10]">
-                              {errors.lastName}
-                            </p>
-                        )}
                       </div>
                     </div>
                     <div className="flex -mx-3">
@@ -147,60 +263,55 @@ const SignInPage = () => {
                         <label className="text-xs font-semibold px-1">Email</label>
                         <div className="flex">
                           <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                           {/* icon */}  
+                            {/* icon */}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                              <path stroke-linecap="round" d="M16.5 12a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 10-2.636 6.364M16.5 12V8.25" />
+                            </svg>
                           </div>
-                          <input 
-                          type="email" 
-                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" 
-                          placeholder="johnsmith@example.com" 
-                          onChange={handleChange('email')}
-                          value={values.email}
+                          <input
+                            type="email"
+                            className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                            value={loginData.email}
+                            disabled={true}
                           />
                         </div>
-                        {touched.email && errors.email && (
-                            <p className="text-[#ff0d10]">
-                              {errors.email}
-                            </p>
-                        )}
                       </div>
                     </div>
                     <div className="flex -mx-3">
                       <div className="w-full px-3 mb-12">
-                        <label className="text-xs font-semibold px-1">Password</label>
+                        <label className="text-xs font-semibold px-1">OTP</label>
                         <div className="flex">
                           <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
-                             {/* icon */}
+                            {/* icon */}
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                              <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 15.75V18m-7.5-6.75h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V13.5zm0 2.25h.008v.008H8.25v-.008zm0 2.25h.008v.008H8.25V18zm2.498-6.75h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V13.5zm0 2.25h.007v.008h-.007v-.008zm0 2.25h.007v.008h-.007V18zm2.504-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zm0 2.25h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V18zm2.498-6.75h.008v.008h-.008v-.008zm0 2.25h.008v.008h-.008V13.5zM8.25 6h7.5v2.25h-7.5V6zM12 2.25c-1.892 0-3.758.11-5.593.322C5.307 2.7 4.5 3.65 4.5 4.757V19.5a2.25 2.25 0 002.25 2.25h10.5a2.25 2.25 0 002.25-2.25V4.757c0-1.108-.806-2.057-1.907-2.185A48.507 48.507 0 0012 2.25z" />
+                            </svg>
                           </div>
-                          <input 
-                          type="password" 
-                          className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500" 
-                          onChange={handleChange('password')}
-                          value={values.password}
-                          placeholder="************" 
+                          <input
+                            type="text"
+                            className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
+                            placeholder="OTP"
+                            onChange={(e) => setOtp(e.target.value)}
                           />
                         </div>
-                          {touched.password && errors.password && (
-                            <p className="text-[#ff0d10]">
-                              {errors.password}
-                            </p>
-                          )}
                       </div>
                     </div>
                     <div className="flex -mx-3">
                       <div className="w-full px-3 mb-5">
-                        <button 
-                        className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
-                        onClick={()=>{
-                          handleSubmit()
-                        }}
+                        <button
+                          className="block w-full max-w-xs mx-auto bg-indigo-500 hover:bg-indigo-700 focus:bg-indigo-700 text-white rounded-lg px-3 py-3 font-semibold"
+                          onClick={() => {
+                            handleVerifyotp()
+                          }}
                         >
-                        REGISTER NOW
+                          Verify Email
                         </button>
                       </div>
                     </div>
                   </div>
-                )}
-              </Formik>
+                </>
+              }
+
             </div>
           </div>
         </div>
