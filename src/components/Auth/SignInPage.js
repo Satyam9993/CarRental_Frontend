@@ -94,7 +94,6 @@ const SignInPage = () => {
                   initialValues={{ firstName: '', lastName: '', email: '', password: '' }}
                   validationSchema={RegisterSchema}
                   onSubmit={(values) => {
-                    console.log(values);
                     handleSignIn(values);
                   }}
                 >
@@ -118,7 +117,7 @@ const SignInPage = () => {
                             </div>
                             <input
                               type="text"
-                              className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-1 border-gray-200 outline-none focus:border-indigo-500"
+                              className="w-full -ml-10 pl-10 pr-3 py-2 rounded-lg border-2 border-gray-200 outline-none focus:border-indigo-500"
                               onChange={handleChange('firstName')}
                               value={values.firstName}
                               placeholder="John"
