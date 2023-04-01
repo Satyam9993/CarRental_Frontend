@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { setLogin } from "../../reducer/index";
-import './LoginPage.css';
 import * as Yup from 'yup';
 import { Formik } from 'formik';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
