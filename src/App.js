@@ -3,9 +3,9 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
-import LoginPage from './components/Auth/LoginPage';
-import SignInPage from './components/Auth/SignInPage';
-import HomePage from './components/Home/HomePage';
+import LoginPage from './Pages/Auth/LoginPage';
+import SignInPage from './Pages/Auth/SignInPage';
+import HomePage from './Pages/Home/HomePage';
 
 
 
