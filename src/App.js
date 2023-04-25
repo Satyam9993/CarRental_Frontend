@@ -6,6 +6,7 @@ import {
 import LoginPage from './Pages/Auth/LoginPage';
 import SignInPage from './Pages/Auth/SignInPage';
 import HomePage from './Pages/Home/HomePage';
+import CarList from './Pages/Home/CarList';
 
 
 
@@ -13,6 +14,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <HomePage/>
+  },
+  {
+    path: "/services",
+    element: <CarList />
   },
   {
     path: "/signin",
