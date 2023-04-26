@@ -1,20 +1,55 @@
 import React from 'react'
 
 const CarList = () => {
-    const products = [
-        {
-            id: 1,
-            name: 'Basic Tee',
-            href: '#',
-            imageSrc: 'https://tailwindui.com/img/ecommerce-images/product-page-01-related-product-01.jpg',
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        // More products...
-    ]
-    return (
-        <div className="bg-white">
+  const products = [
+    {
+        id: 1,
+        name: 'Basic Tee',
+        href: '#',
+        imageSrc: 'https://img.freepik.com/free-photo/black-mini-coupe-road_114579-5056.jpg?size=626&ext=jpg&ga=GA1.1.90537765.1677043202&semt=robertav1_2_sidr',
+        imageAlt: "Front of men's Basic Tee in black.",
+        price: '$35',
+        color: 'Black',
+    },
+    {
+        id: 2,
+        name: 'Basic Tee',
+        href: '#',
+        imageSrc: 'https://img.freepik.com/free-photo/black-mini-coupe-road_114579-5056.jpg?size=626&ext=jpg&ga=GA1.1.90537765.1677043202&semt=robertav1_2_sidr',
+        imageAlt: "Front of men's Basic Tee in black.",
+        price: '$35',
+        color: 'Black',
+    },
+    {
+        id: 3,
+        name: 'Basic Tee',
+        href: '#',
+        imageSrc: 'https://img.freepik.com/free-photo/black-mini-coupe-road_114579-5056.jpg?size=626&ext=jpg&ga=GA1.1.90537765.1677043202&semt=robertav1_2_sidr',
+        imageAlt: "Front of men's Basic Tee in black.",
+        price: '$35',
+        color: 'Black',
+    },
+    {
+        id: 4,
+        name: 'Basic Tee',
+        href: '#',
+        imageSrc: 'https://img.freepik.com/free-photo/black-mini-coupe-road_114579-5056.jpg?size=626&ext=jpg&ga=GA1.1.90537765.1677043202&semt=robertav1_2_sidr',
+        imageAlt: "Front of men's Basic Tee in black.",
+        price: '$35',
+        color: 'Black',
+    },
+    {
+        id: 5,
+        name: 'Basic Tee',
+        href: '#',
+        imageSrc: 'https://img.freepik.com/free-photo/black-mini-coupe-road_114579-5056.jpg?size=626&ext=jpg&ga=GA1.1.90537765.1677043202&semt=robertav1_2_sidr',
+        imageAlt: "Front of men's Basic Tee in black.",
+        price: '$35',
+        color: 'Black',
+    },
+]
+  return (
+    <div className="bg-white">
             <div className="mx-auto max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
                 <h2 className="text-2xl font-bold tracking-tight text-gray-900">Customers also purchased</h2>
 
@@ -45,7 +80,7 @@ const CarList = () => {
                 </div>
             </div>
         </div>
-    )
+  )
 }
 
 export default CarList
