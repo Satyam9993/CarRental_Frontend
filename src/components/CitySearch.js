@@ -15,7 +15,7 @@ const SearchCity = () => {
     const [filteredData, setFilteredData] = useState(data.slice(0, 4));
     const [isSearching, setIsSearching] = useState(false);
 
-    function handleSearch(term) {
+    const handleSearch=(term)=>{
         setSearchTerm(term);
         const newFilteredData = data.filter((item) =>
             item.name.toLowerCase().includes(term.toLowerCase())
