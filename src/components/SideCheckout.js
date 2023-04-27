@@ -1,7 +1,7 @@
 import React from 'react'
 import { Fragment, useState } from 'react'
 import { Dialog, Transition } from '@headlessui/react'
-import { XMarkIcon } from '@heroicons/react/24/outline'
+import { ShoppingCartIcon, XMarkIcon } from '@heroicons/react/24/outline'
 
 const SideCheckout = () => {
     const products = [
@@ -19,7 +19,7 @@ const SideCheckout = () => {
     const [open, setOpen] = useState(false)
     return (
         <>
-        <button onClick={()=>setOpen(!open)}>Click me</button>
+        <button onClick={()=>setOpen(!open)}><ShoppingCartIcon height={24} width={24}/></button>
         <Transition.Root show={open} as={Fragment}>
             <Dialog as="div" className="relative z-50" onClose={setOpen}>
                 <Transition.Child

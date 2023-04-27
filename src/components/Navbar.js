@@ -3,6 +3,7 @@ import { Dialog } from '@headlessui/react'
 import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Logo from '../assets/logo.png'
 import { Link, useLocation } from 'react-router-dom';
+import SideCheckout from './SideCheckout';
 
 const navigation = [
   { name: 'Home', to: '/' },
@@ -16,6 +17,7 @@ export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const location = useLocation();
   return (
+    <>
     <div className="bg-white">
       <header className="absolute inset-x-0 top-0 z-50">
         <nav className="flex items-center justify-between p-6 lg:px-8" aria-label="Global">
@@ -30,6 +32,9 @@ export default function Example() {
             </Link>
           </div>
           <div className="flex lg:hidden">
+            <div className='mx-4'>
+              <SideCheckout/>
+            </div>
             <button
               type="button"
               className="-m-2.5 inline-flex items-center justify-center rounded-md p-2.5 text-gray-700"
@@ -47,6 +52,9 @@ export default function Example() {
             ))}
           </div>
           <div className="hidden lg:flex lg:flex-1 lg:justify-end">
+            <div className='mx-4 cursor-pointer'>
+            <SideCheckout/>
+            </div>
             <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">
               Log in <span aria-hidden="true">&rarr;</span>
             </Link>
@@ -100,5 +108,7 @@ export default function Example() {
         </Dialog>
       </header>
     </div>
+    {/* <SideCheckout isopen={isopen}/> */}
+    </>
   )
 }
