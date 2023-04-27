@@ -36,7 +36,7 @@ const SearchCity = () => {
                     <input
                         type="search"
                         id="search-dropdown"
-                        className="block p-2.5 w-full z-20 text-sm rounded-lg border-[#fa5c43] border focus:ring-[#fa5c43] focus:border-[#fa5c43]"
+                        className="block p-2.5 w-full z-20 text-sm rounded-lg  border-gray-500 border focus:ring-gray-500 focus:border-gray-500"
                         placeholder="Search Cities..."
                         value={searchTerm}
                         onChange={(e) => handleSearch(e.target.value)}
