@@ -56,9 +56,7 @@ const CarList = () => {
     ]
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [searchItem, setSearchItem] = useState()
     const [filteredData, setFilteredData] = useState(products.slice(0, 15));
-    const [isSearching, setIsSearching] = useState(false);
 
     const handleSearch=(term)=>{
         setSearchTerm(term);
@@ -83,7 +81,6 @@ const CarList = () => {
                                 placeholder="Search Cars..."
                                 value={searchTerm}
                                 onChange={(e) => handleSearch(e.target.value)}
-                                onClick={() => setIsSearching(!isSearching)}
                             />
                         </div>
                     </div>
