@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 
 const SearchCity = () => {
-    let data = [{
-        name: "Indore",
-    }, { name: "Dewas" }, { name: "Bhopal" }]
+    let data = [
+    { name: "Indore"}, 
+    { name: "Dewas" }, 
+    { name: "Bhopal"},
+    { name: "Pune"}, 
+    { name: "Jhansi" }, 
+    { name: "Kanpur"},
+    ]
 
     const [searchTerm, setSearchTerm] = useState("");
     const [searchItem, setSearchItem] = useState()
-    const [filteredData, setFilteredData] = useState(data);
+    const [filteredData, setFilteredData] = useState(data.slice(0, 4));
     const [isSearching, setIsSearching] = useState(false);
 
     function handleSearch(term) {
@@ -15,7 +20,7 @@ const SearchCity = () => {
         const newFilteredData = data.filter((item) =>
             item.name.toLowerCase().includes(term.toLowerCase())
         );
-        setFilteredData(newFilteredData);
+        setFilteredData(newFilteredData.slice(0, 4));
     }
 
     const handleSelect=(item)=>{
