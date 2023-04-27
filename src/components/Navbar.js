@@ -9,7 +9,7 @@ const navigation = [
   { name: 'Product', to: '/products' },
   { name: 'Features', to: '/' },
   { name: 'Marketplace', to: '/' },
-  { name: 'Company', to: '/' },
+  { name: 'Company', to: '/company' },
 ]
 
 export default function Example() {
@@ -41,7 +41,7 @@ export default function Example() {
           </div>
           <div className="hidden lg:flex lg:gap-x-12">
             {navigation.map((item) => (
-              <Link key={item.name} to={item.to} className={`text-sm font-semibold leading-6 ${location.pathname == item.to ? "text-[#fa5c43]" : "text-gray-900"} `} >
+              <Link key={item.name} to={item.to} className={`text-sm font-semibold leading-6 ${location.pathname === item.to ? "text-[#fa5c43]" : "text-gray-900"} `} >
                 {item.name}
               </Link>
             ))}
@@ -80,7 +80,7 @@ export default function Example() {
                     <Link
                       key={item.name}
                       to={item.to}
-                      className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 ${location.pathname == item.to ? "text-[#fa5c43]" : "text-gray-900"} hover:bg-gray-50`}
+                      className={`-mx-3 block rounded-lg px-3 py-2 text-base font-semibold leading-7 ${location.pathname === item.to ? "text-[#fa5c43]" : "text-gray-900"} hover:bg-gray-50`}
                     >
                       {item.name}
                     </Link>

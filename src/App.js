@@ -7,6 +7,7 @@ import LoginPage from './Pages/Auth/LoginPage';
 import SignInPage from './Pages/Auth/SignInPage';
 import HomePage from './Pages/Home/HomePage';
 import Product from './Pages/Product/Product';
+import Company from './Pages/Company/Company';
 
 
 
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/products",
     element: <Product />
+  },
+  {
+    path: "/company",
+    element: <Company />
   },
   {
     path: "/signin",
