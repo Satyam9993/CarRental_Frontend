@@ -7,9 +7,9 @@ import { Link, useLocation } from 'react-router-dom';
 const navigation = [
   { name: 'Home', to: '/' },
   { name: 'Product', to: '/products' },
-  { name: 'Features', to: '#' },
-  { name: 'Marketplace', to: '#' },
-  { name: 'Company', to: '#' },
+  { name: 'Features', to: '/' },
+  { name: 'Marketplace', to: '/' },
+  { name: 'Company', to: '/' },
 ]
 
 export default function Example() {
