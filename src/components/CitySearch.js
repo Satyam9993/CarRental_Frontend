@@ -42,7 +42,7 @@ const SearchCity = () => {
                         <span className="sr-only">Search</span>
                     </button>
                 </div>
-                <div id="dropdown" className="z-10 ">
+                <div id="dropdown" className="z-10 absolute">
                     <ul className={`${!isSearching && "hidden"} py-2 text-sm text-gray-700" aria-labelledby="dropdown-button`}>
                         {filteredData.map((item) => (
                             // TODO : replace name with id
