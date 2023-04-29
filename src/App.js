@@ -9,7 +9,9 @@ import HomePage from './Pages/Home/HomePage';
 import Product from './Pages/Product/Product';
 import Company from './Pages/Company/Company';
 
-
+// Admin
+import Admin from './Pages/Admin/Admin';
+import AdminLogin from './Pages/Admin/Login';
 
 const router = createBrowserRouter([
   {
@@ -31,6 +33,14 @@ const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage/>
+  },
+  {
+    path: "/admin/login",
+    element: <AdminLogin/>
+  },
+  {
+    path: "/admin",
+    element: <Admin/>
   },
 ]);
 
