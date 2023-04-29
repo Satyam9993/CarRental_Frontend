@@ -56,7 +56,7 @@ const Login = () => {
                         <div>
                             <div className="flex -mx-3">
                                 <div className="w-full px-3 mb-5">
-                                    <label className="text-gray-100 text-xs font-semibold px-1">First name</label>
+                                    <label className="text-gray-100 text-xs font-semibold px-1">Admin ID</label>
                                     <div className="flex">
                                         <div className="w-10 z-10 pl-1 text-center pointer-events-none flex items-center justify-center">
                                             {/* icon */}
