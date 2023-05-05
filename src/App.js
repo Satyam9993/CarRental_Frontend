@@ -12,6 +12,7 @@ import Company from './Pages/Company/Company';
 // Admin
 import Admin from './Pages/Admin/Admin';
 import AdminLogin from './Pages/Admin/Login';
+import Checkout from './Pages/Checkout/Checkout';
 
 const router = createBrowserRouter([
   {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
   {
     path: "/admin",
     element: <Admin/>
+  },
+  {
+    path: "/checkout",
+    element: <Checkout/>
   },
 ]);
 
