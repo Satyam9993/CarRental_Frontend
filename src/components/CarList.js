@@ -1,66 +1,16 @@
 import React, { useState } from 'react';
 import CarCard from './CarCard';
+import { useSelector } from 'react-redux';
 
 const CarList = () => {
-    const products = [
-        {
-            id: 1,
-            name: 'Puma Shoes',
-            desc: "The best shoes in the marketplace",
-            href: '#',
-            imageSrc: "https://unsplash.com/photos/IJjfPInzmdk/download?force=true&w=1920",
-            imageAlt: "Puma Shoes",
-            price: '$2/hr',
-            color: 'Black',
-        },
-        {
-            id: 2,
-            name: 'Basic Tee',
-            desc: "The best shoes in the marketplace",
-            href: '#',
-            imageSrc: "https://unsplash.com/photos/IJjfPInzmdk/download?force=true&w=1920",
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 3,
-            name: 'Basic Tee',
-            desc: "The best shoes in the marketplace",
-            href: '#',
-            imageSrc: "https://unsplash.com/photos/IJjfPInzmdk/download?force=true&w=1920",
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 4,
-            name: 'Basic Tee',
-            desc: "The best shoes in the marketplace",
-            href: '#',
-            imageSrc: "https://unsplash.com/photos/IJjfPInzmdk/download?force=true&w=1920",
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-        {
-            id: 5,
-            name: 'Basic Tee',
-            desc: "The best shoes in the marketplace",
-            href: '#',
-            imageSrc: "https://unsplash.com/photos/IJjfPInzmdk/download?force=true&w=1920",
-            imageAlt: "Front of men's Basic Tee in black.",
-            price: '$35',
-            color: 'Black',
-        },
-    ]
+    const {cars} = useSelector(state => state.user)
 
     const [searchTerm, setSearchTerm] = useState("");
-    const [filteredData, setFilteredData] = useState(products.slice(0, 15));
+    const [filteredData, setFilteredData] = useState(cars.slice(0, 15));
 
     const handleSearch=(term)=>{
         setSearchTerm(term);
-        const newFilteredData = products.filter((item) =>
+        const newFilteredData = cars.filter((item) =>
             item.name.toLowerCase().includes(term.toLowerCase())
         );
         setFilteredData(newFilteredData.slice(0, 15));

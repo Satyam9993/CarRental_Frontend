@@ -4,7 +4,59 @@ const initialState = {
   mode: "light",
   user: null,
   token: null,
-  posts: [],
+  cars: [
+    {
+      id: 1,
+      name: 'Puma Shoes',
+      desc: "The best shoes in the marketplace",
+      href: '#',
+      imageSrc: "https://unsplash.com/photos/IJjfPInzmdk/download?force=true&w=1920",
+      imageAlt: "Puma Shoes",
+      price: 2,
+      color: 'Black',
+    },
+    {
+      id: 2,
+      name: 'Basic Tee',
+      desc: "The best shoes in the marketplace",
+      href: '#',
+      imageSrc: "https://unsplash.com/photos/IJjfPInzmdk/download?force=true&w=1920",
+      imageAlt: "Front of men's Basic Tee in black.",
+      price: 35,
+      color: 'Black',
+    },
+    {
+      id: 3,
+      name: 'Basic Tee',
+      desc: "The best shoes in the marketplace",
+      href: '#',
+      imageSrc: "https://unsplash.com/photos/IJjfPInzmdk/download?force=true&w=1920",
+      imageAlt: "Front of men's Basic Tee in black.",
+      price: 35,
+      color: 'Black',
+    },
+    {
+      id: 4,
+      name: 'Basic Tee',
+      desc: "The best shoes in the marketplace",
+      href: '#',
+      imageSrc: "https://unsplash.com/photos/IJjfPInzmdk/download?force=true&w=1920",
+      imageAlt: "Front of men's Basic Tee in black.",
+      price: 35,
+      color: 'Black',
+    },
+    {
+      id: 5,
+      name: 'Basic Tee',
+      desc: "The best shoes in the marketplace",
+      href: '#',
+      imageSrc: "https://unsplash.com/photos/IJjfPInzmdk/download?force=true&w=1920",
+      imageAlt: "Front of men's Basic Tee in black.",
+      price: 35,
+      color: 'Black',
+    },
+  ],
+  cart: [],
 };
 
 export const userAuthSlice = createSlice({
@@ -22,26 +74,19 @@ export const userAuthSlice = createSlice({
       state.user = null;
       state.token = null;
     },
-    setFriends: (state, action) => {
-      if (state.user) {
-        state.user.friends = action.payload.friends;
-      } else {
-        console.error("user friends non-existent :(");
-      }
+    setCars: (state, action) => {
+      state.cars = action.payload.cars;
     },
-    setPosts: (state, action) => {
-      state.posts = action.payload.posts;
+    setAddcart: (state, action) => {
+      state.cart = [...state.cart, action.payload.carId];
     },
-    setPost: (state, action) => {
-      const updatedPosts = state.posts.map((post) => {
-        if (post._id === action.payload.post._id) return action.payload.post;
-        return post;
-      });
-      state.posts = updatedPosts;
-    },
+    setRemovecart: (state, action) => {
+      const id = action.payload.carId;
+      state.cart = state.cart.filter(c => c !== id);
+    }
   },
 });
 
-export const { setMode, setLogin, setLogout, setFriends, setPosts, setPost } =
-userAuthSlice.actions;
+export const { setMode, setLogin, setLogout, setPost, setCars, setRemovecart, setAddcart } =
+  userAuthSlice.actions;
 export default userAuthSlice.reducer;
