@@ -7,7 +7,6 @@ import InvestmentSection from '../../components/InvestmentSection';
 const HomePage = () => {
   return (
     <div className="bg-white">
-      skagdis
       <Navbar />
       <Hero />
       <HomeDetail />
