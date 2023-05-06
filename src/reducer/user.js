@@ -57,6 +57,7 @@ const initialState = {
     },
   ],
   cart: [],
+  locations: [],
 };
 
 export const userAuthSlice = createSlice({
@@ -77,6 +78,9 @@ export const userAuthSlice = createSlice({
     setCars: (state, action) => {
       state.cars = action.payload.cars;
     },
+    setLocations: (state, action) => {
+      state.locations = action.payload.locations;
+    },
     setAddcart: (state, action) => {
       state.cart = [...state.cart, action.payload.carId];
     },
@@ -87,6 +91,6 @@ export const userAuthSlice = createSlice({
   },
 });
 
-export const { setMode, setLogin, setLogout, setPost, setCars, setRemovecart, setAddcart } =
+export const { setMode, setLogin, setLogout, setPost, setCars, setRemovecart, setAddcart, setLocations } =
   userAuthSlice.actions;
 export default userAuthSlice.reducer;

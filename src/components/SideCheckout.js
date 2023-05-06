@@ -108,7 +108,7 @@ const SideCheckout = () => {
                                                                                 <button
                                                                                     type="button"
                                                                                     className="font-medium text-indigo-600 hover:text-red-600"
-                                                                                    onClick={()=>RemoveToCart(product.id)}
+                                                                                    onClick={()=>RemoveToCart(product._id)}
                                                                                 >
                                                                                     Remove
                                                                                 </button>

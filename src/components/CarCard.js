@@ -8,13 +8,13 @@ const CarCard = ({ product }) => {
     const { cart } = useSelector(state => state.user);
     const AddToCart = () => {
         dispatch(setAddcart({
-            carId: product.id
+            carId: product._id
         }))
     };
 
     const RemoveToCart = () => {
         dispatch(setRemovecart({
-            carId: product.id
+            carId: product._id
         }))
     };
 
@@ -62,9 +62,9 @@ const CarCard = ({ product }) => {
                     </div>
                     <div className="flex flex-col md:flex-col justify-between items-center text-gray-900">
                         <div>
-                            <p className="font-bold text-xl">65 $</p>
+                            <p className="font-bold text-xl">{product.price}₹/day</p>
                         </div>
-                        {!cart.includes(product.id) ? <button
+                        {!cart.includes(product._id) ? <button
                             className="px-6 py-2 transition ease-in duration-200 uppercase rounded-sm hover:bg-gray-800 hover:text-white border-2 border-gray-900 focus:outline-none" onClick={AddToCart}>Add
                             to cart</button> :
                             <button

@@ -172,8 +172,6 @@ const Checkout = () => {
                     </div>
                 </div>
             </div>
-
-            {/* <!-- BUY ME A BEER AND HELP SUPPORT OPEN-SOURCE RESOURCES --> */}
             
         </>
     )
