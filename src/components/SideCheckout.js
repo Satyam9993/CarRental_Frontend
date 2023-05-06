@@ -27,7 +27,7 @@ const SideCheckout = () => {
     const calTotal = () => {
         let t = 0;
         for(let i = 0; i < products.length; i++) {
-            t += products[i].price;
+            t += Number(products[i].price);
         }
         return t; 
     } 
@@ -97,7 +97,7 @@ const SideCheckout = () => {
                                                                                 <h3>
                                                                                     <a href={product.href}>{product.name}</a>
                                                                                 </h3>
-                                                                                <p className="ml-4">{product.price} $/hr</p>
+                                                                                <p className="ml-4">{product.price} ₹/day</p>
                                                                             </div>
                                                                             <p className="mt-1 text-sm text-gray-500">{product.color}</p>
                                                                         </div>
@@ -125,7 +125,7 @@ const SideCheckout = () => {
                                             <div className="border-t border-gray-200 px-4 py-6 sm:px-6">
                                                 <div className="flex justify-between text-base font-medium text-gray-900">
                                                     <p>Subtotal</p>
-                                                    <p>{calTotal()}$/hr</p>
+                                                    <p>{calTotal()}₹/day</p>
                                                 </div>
                                                 <p className="mt-0.5 text-sm text-gray-500">Shipping and taxes calculated at checkout.</p>
                                                 <div className="mt-6">
