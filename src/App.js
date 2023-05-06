@@ -15,6 +15,7 @@ import AdminLogin from './Pages/Admin/Login';
 import Checkout from './Pages/Checkout/Checkout';
 import { useDispatch, useSelector } from 'react-redux';
 import { setCars, setLocations } from './reducer/user';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const router = createBrowserRouter([
   {
@@ -62,7 +63,7 @@ const App = () => {
   }, [])
   
   const fetchCarData = async (loc) => {
-    const cars = await fetch(`http://localhost:5000/api/car?location=${loc}`);
+    const cars = await fetch(`${BACKEND_URL}?location=${loc}`);
 
     const data = await cars.json();
     dispatch(setCars({
@@ -71,7 +72,7 @@ const App = () => {
   };
 
   const fetchLocationData = async () => {
-    const loc = await fetch(`http://localhost:5000/api/location`);
+    const loc = await fetch(`${BACKEND_URL}/api/location`);
 
     const data = await loc.json();
     dispatch(setLocations({
