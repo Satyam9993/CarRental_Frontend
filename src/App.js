@@ -13,7 +13,7 @@ import Company from './Pages/Company/Company';
 import Admin from './Pages/Admin/Admin';
 import AdminLogin from './Pages/Admin/Login';
 import Checkout from './Pages/Checkout/Checkout';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setCars, setLocations } from './reducer/user';
 
 const router = createBrowserRouter([
@@ -53,9 +53,11 @@ const router = createBrowserRouter([
 
 const App = () => {
   const dispatch = useDispatch();
+  const {selectedLocation} = useSelector(state => state.user)
+
   useEffect(() => {
     // eslint-disable-next-line
-    fetchCarData('644c9ce9db73875afbabac4b');
+    fetchCarData(selectedLocation);
     fetchLocationData();
   }, [])
   

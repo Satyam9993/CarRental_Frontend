@@ -9,7 +9,7 @@ const SideCheckout = () => {
     const { cars, cart } = useSelector(state => state.user);
     const dispatch = useDispatch();
     
-    const products = cars.filter(c => cart.includes(c.id));
+    const products = cars.filter(c => cart.includes(c._id));
     const [open, setOpen] = useState(false);
     const [total, setTotal] = useState(0);
     

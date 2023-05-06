@@ -1,23 +1,19 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { setSelectedLocation } from '../reducer/user';
 
 const SearchCity = () => {
-    let data = [
-    { name: "Indore"}, 
-    { name: "Dewas" }, 
-    { name: "Bhopal"},
-    { name: "Pune"}, 
-    { name: "Jhansi" }, 
-    { name: "Kanpur"},
-    ]
+    const {locations} = useSelector(state => state.user);
+    const dispatch = useDispatch();
 
     const [searchTerm, setSearchTerm] = useState("");
     const [searchItem, setSearchItem] = useState()
-    const [filteredData, setFilteredData] = useState(data.slice(0, 4));
+    const [filteredData, setFilteredData] = useState(locations.slice(0, 4));
     const [isSearching, setIsSearching] = useState(false);
 
     const handleSearch=(term)=>{
         setSearchTerm(term);
-        const newFilteredData = data.filter((item) =>
+        const newFilteredData = locations.filter((item) =>
             item.name.toLowerCase().includes(term.toLowerCase())
         );
         setFilteredData(newFilteredData.slice(0, 4));
@@ -27,6 +23,9 @@ const SearchCity = () => {
         setSearchTerm(item.name)
         setSearchItem(item)
         setIsSearching(false)
+        dispatch(setSelectedLocation({
+            location: item._id
+        }));
     }
 
     return (
@@ -51,7 +50,7 @@ const SearchCity = () => {
                     <ul className={`${!isSearching && "hidden"} py-2 text-sm text-gray-700" aria-labelledby="dropdown-button`}>
                         {filteredData.map((item) => (
                             // TODO : replace name with id
-                            <li key={item.name}>
+                            <li key={item._id}>
                                 <button 
                                     type="button" 
                                     className="inline-flex w-full px-4 py-2 hover:bg-gray-200"
