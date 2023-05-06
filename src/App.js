@@ -63,9 +63,9 @@ const App = () => {
   }, [])
   
   const fetchCarData = async (loc) => {
-    const cars = await fetch(`${BACKEND_URL}?location=${loc}`);
-
+    const cars = await fetch(`${BACKEND_URL}/api/car?location=${loc}`);
     const data = await cars.json();
+    console.log(data, loc);
     dispatch(setCars({
       cars : data.cars
     }));
