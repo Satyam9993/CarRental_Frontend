@@ -12,7 +12,6 @@ const SideCheckout = () => {
     
     const products = cars.filter(c => cart.includes(c._id));
     const [open, setOpen] = useState(false);
-    const [total, setTotal] = useState(0);
     
     const RemoveToCart = (id) => {
         dispatch(setRemovecart({
