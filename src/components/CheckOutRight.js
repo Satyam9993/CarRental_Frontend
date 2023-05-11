@@ -1,15 +1,34 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setRemovecart } from '../reducer/user';
 
 const CheckOutRight = () => {
     const { cart, cars } = useSelector(state => state.user);
     const products = cars.filter(c => cart.includes(c._id));
+    const [dateDiff, setDateDiff] = useState(1);
+    const today = new Date().toISOString().split('T')[0];
+    const [duration, setDuration] = useState({
+        from: new Date(),
+        to: new Date()
+    })
+
+    const handleDateChange = (event) => {
+        setDuration({
+            from: new Date(),
+            to: new Date(event.target.value)
+        });
+        const selected = new Date(event.target.value);
+        const today = new Date();
+        const diffInMs = selected.getTime() - today.getTime();
+        const diffInDays = Math.ceil(diffInMs / (1000 * 60 * 60 * 24));
+        setDateDiff(diffInDays + 1);
+    };
+
     const dispatch = useDispatch();
 
     const RemoveToCart = (id) => {
         dispatch(setRemovecart({
-            carId : id
+            carId: id
         }))
     };
 
@@ -27,7 +46,7 @@ const CheckOutRight = () => {
                 <div className="h-[400px] w-full mx-auto text-gray-800 font-light mb-6 border-b border-gray-200 pb-6 overflow-y-scroll">
                     {products.map((p) => (
                         <div className="w-full flex items-center p-4" key={p._id}>
-                            <div className="overflow-hidden rounded-lg w-16 h-16 bg-gray-50 border border-gray-200">
+                            <div className="overflow-hidden rounded-lg w-16 h-16 bg-gray-50 border border-gray-200 flex items-center">
                                 <img src={p.imageSrc} alt="sdsd" />
                             </div>
                             <div className="flex-grow pl-3">
@@ -38,7 +57,7 @@ const CheckOutRight = () => {
                                 <div>
                                     <span className="font-semibold text-gray-600 text-xl">{p.price}</span><span className="font-semibold text-gray-600 text-sm">.00₹/day</span>
                                 </div>
-                                <button className='w-6 h-6 hover:text-red-500 font-semibold' onClick={()=>RemoveToCart(p._id)}>
+                                <button className='w-6 h-6 hover:text-red-500 font-semibold' onClick={() => RemoveToCart(p._id)}>
                                     Remove
                                 </button>
                             </div>
@@ -46,15 +65,34 @@ const CheckOutRight = () => {
                     ))}
                 </div>
                 <div className="mb-6 pb-6 border-b border-gray-200">
-                    <div className="-mx-2 flex items-end justify-end">
-                        <div className="flex-grow px-2 lg:max-w-xs">
-                            <label className="text-gray-600 font-semibold text-sm mb-2 ml-1">Discount code</label>
-                            <div>
-                                <input className="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors" placeholder="XXXXXX" type="text" />
-                            </div>
+                    <div className="flex items-end justify-between">
+                        <div className='flex items-center'>
+                            <h3 className='text-lg font-semibold'>Duration</h3>
                         </div>
-                        <div className="px-2">
-                            <button className="block w-full max-w-xs mx-auto border border-transparent bg-gray-400 hover:bg-gray-500 focus:bg-gray-500 text-white rounded-md px-5 py-2 font-semibold">APPLY</button>
+                        <div className="flex-grow px-2 lg:max-w-sm">
+                            <div className='flex overflow-hidden'>
+                                <div className='mr-4'>
+                                    <label className="text-gray-600 font-semibold text-sm mb-2 ml-1">From</label>
+                                    <input
+                                        className="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors"
+                                        type="date"
+                                        disabled={true}
+                                        value={new Date().toISOString().split('T')[0]}
+                                    />
+                                </div>
+                                <div>
+                                    <label className="text-gray-600 font-semibold text-sm mb-2 ml-1">To</label>
+                                    <input
+                                        className="w-full px-3 py-2 border border-gray-200 rounded-md focus:outline-none focus:border-indigo-500 transition-colors"
+                                        placeholder="XXXXXX"
+                                        type="date"
+                                        onChange={handleDateChange}
+                                        min={today}
+                                        value={duration.to.toISOString().split('T')[0]}
+                                        required
+                                    />
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -62,29 +100,36 @@ const CheckOutRight = () => {
                     <div className="w-full flex mb-3 items-center">
                         <div className="flex-grow">
                             <span className="text-gray-600">Subtotal</span>
+                            <p className='text-sm text-blue-500'>This price is according to duration.</p>
                         </div>
                         <div className="pl-3">
-                            <span className="font-semibold">{calTotal()}₹/day</span>
+                            <span className="font-semibold">{dateDiff} x {calTotal()}₹</span>
                         </div>
                     </div>
                     <div className="w-full flex items-center">
                         <div className="flex-grow">
-                            <span className="text-gray-600">Taxes (GST)</span>
+                            <span className="text-gray-600">Taxes (GST)*dateDiff</span>
+                            <p className='text-sm text-blue-500'>This include all kind of taxes.</p>
                         </div>
                         <div className="pl-3">
-                            <span className="font-semibold">{calTotal() * 0.08}₹/day</span>
+                            <span className="font-semibold">{(calTotal() * dateDiff) * 0.08}₹</span>
                         </div>
                     </div>
                 </div>
                 <div className="mb-6 pb-6 border-b border-gray-200 md:border-none text-gray-800 text-xl">
                     <div className="w-full flex items-center">
                         <div className="flex-grow">
-                            <span className="text-gray-600">Total</span>
+                            <span className="text-gray-800 font-bold">Total</span>
                         </div>
                         <div className="pl-3">
                             <span className="font-semibold text-gray-400 text-sm">IND</span> <span className="font-semibold">₹{calTotal() * 0.08 + calTotal()}</span>
                         </div>
                     </div>
+                </div>
+                <div className='flex items-center justify-end'>
+                    <button className=' bg-black hover:bg-[#fa5c43] p-4 text-bold text-lg text-white w-1/2 ho'>
+                        Book Now
+                    </button>
                 </div>
             </div>
         </>
