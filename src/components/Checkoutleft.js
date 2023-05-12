@@ -3,7 +3,7 @@ import Map from './Map';
 import { useSelector } from 'react-redux';
 
 const Checkoutleft = () => {
-  const {pickuploc} = useSelector(state => state.user);
+  const { pickuploc } = useSelector(state => state.user);
   return (
     <>
       <div className="px-3 md:w-5/12">
@@ -23,6 +23,9 @@ const Checkoutleft = () => {
             <div className="flex-grow pl-3">
               <span>{pickuploc.address === null ? "Select Address" : pickuploc.address}</span>
             </div>
+          </div>
+          <div className='text-red-600 text-sm text-bold'>
+            Note : If you not select pick-up location then you have to pick vehicle from city office
           </div>
         </div>
         <div className="w-full mx-auto rounded-lg bg-white border border-gray-200 text-gray-800 font-light mb-6">

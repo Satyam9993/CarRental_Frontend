@@ -24,7 +24,7 @@ const CarCard = ({ product }) => {
                 <div className="prod-title">
                     <p className="text-2xl uppercase text-gray-900 font-bold">{product.name}</p>
                     <p className="uppercase text-sm text-gray-400">
-                        {product.desc}
+                        {product.desc.slice(0, 120)}...
                     </p>
                 </div>
                 <div className="prod-img">
