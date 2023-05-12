@@ -5,13 +5,18 @@ import MapboxGeocoder from '@mapbox/mapbox-gl-geocoder';
 
 import 'mapbox-gl/dist/mapbox-gl.css';
 import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+import { useDispatch, useSelector } from 'react-redux';
+import { setPickUpLoc } from '../reducer/user';
 const REACT_APP_MAP = process.env.REACT_APP_MAP;
 mapboxgl.accessToken = REACT_APP_MAP;
 
 const Map = () => {
+    const dispatch = useDispatch();
+    const { pickuploc } = useSelector(state => state.user);
+    console.log(pickuploc);
     const mapContainerRef = useRef(null);
-    const [lng, setLng] = useState(75.8577);
-    const [lat, setLat] = useState(22.7196);
+    const [lng, setLng] = useState(pickuploc.long);
+    const [lat, setLat] = useState(pickuploc.lat);
     const [zoom, setZoom] = useState(12);
     const [marker, setMarker] = useState(null);
     const [locationInfo, setLocationInfo] = useState(null);
@@ -46,6 +51,12 @@ const Map = () => {
             const { lng, lat } = e.lngLat;
             setLng(lng);
             setLat(lat);
+            dispatch(setPickUpLoc({
+                pickuploc : {
+                    long : lng,
+                    lat : lat
+                }
+            }))
             if (marker) {
                 marker.remove();
             }

@@ -1,9 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  mode: "light",
   user: null,
   token: null,
+  pickuploc: {
+    long : 75.8577,
+    lat : 22.7196
+  },
   cars: [
     {
       id: 1,
@@ -65,8 +68,8 @@ export const userAuthSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    setMode: (state) => {
-      state.mode = state.mode === "light" ? "dark" : "light";
+    setPickUpLoc: (state, action) => {
+      state.pickuploc = action.payload.pickuploc;
     },
     setLogin: (state, action) => {
       state.user = action.payload.user;
@@ -95,6 +98,6 @@ export const userAuthSlice = createSlice({
   },
 });
 
-export const { setMode, setLogin, setLogout, setPost, setCars, setRemovecart, setAddcart,setSelectedLocation, setLocations } =
+export const { setPickUpLoc, setLogin, setLogout, setPost, setCars, setRemovecart, setAddcart,setSelectedLocation, setLocations } =
   userAuthSlice.actions;
 export default userAuthSlice.reducer;
