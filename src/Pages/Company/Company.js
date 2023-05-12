@@ -10,65 +10,18 @@ const About = () => {
           <div className="container m-auto px-6 text-gray-600 md:px-12 xl:px-6">
             <div className="space-y-6 md:space-y-0 md:flex md:gap-6 lg:items-center lg:gap-12">
               <div className="md:5/12 lg:w-5/12">
-                <img src="https://tailus.io/sources/blocks/left-image/preview/images/startup.png" alt="image" loading="lazy" width="" height="" />
+                <img src="https://images.unsplash.com/photo-1502877338535-766e1452684a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1172&q=80" alt="image" loading="lazy" width="" height="" />
               </div>
               <div className="md:7/12 lg:w-6/12">
-                <h2 className="text-2xl text-gray-900 font-bold md:text-4xl">Nuxt development is carried out by passionate developers</h2>
-                <p className="mt-6 text-gray-600">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Eum omnis voluptatem accusantium nemo perspiciatis delectus atque autem! Voluptatum tenetur beatae unde aperiam, repellat expedita consequatur! Officiis id consequatur atque doloremque!</p>
-                <p className="mt-4 text-gray-600"> Nobis minus voluptatibus pariatur dignissimos libero quaerat iure expedita at? Asperiores nemo possimus nesciunt dicta veniam aspernatur quam mollitia.</p>
+                <h2 className="text-2xl text-gray-900 font-bold md:text-4xl">A car rental company is a business that offers short-term or long-term rental of vehicles to customers.</h2>
+                <p className="mt-6 text-gray-600">We have multiple locations, including airports, downtown areas, and suburban neighborhoods. They offer various rental options, such as daily, weekly, and monthly rentals, as well as one-way rentals and long-term leases.To rent a vehicle from a car rental company, customers typically need to meet certain requirements, such as being of a certain age and possessing a valid driver's license and credit card. Rental rates are typically based on factors such as the type of vehicle, rental duration, and any additional services or insurance purchased.</p>
+                <p className="mt-4 text-gray-600"> We often provide additional services such as GPS navigation systems, car seats for children, and roadside assistance. Some companies also offer loyalty programs and discounts for frequent renters.</p>
               </div>
             </div>
           </div>
         </div>
       </div>
-      <section className="text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto flex flex-wrap">
-          <div className="lg:w-2/3 mx-auto">
-            <div className="flex flex-wrap w-full bg-gray-100 py-32 px-10 relative mb-4">
-              <img alt="gallery" className="w-full object-cover h-full object-center block opacity-25 absolute inset-0" src="https://dummyimage.com/820x340" />
-                <div className="text-center relative z-10 w-full">
-                  <h2 className="text-2xl text-gray-900 font-medium title-font mb-2">Shooting Stars</h2>
-                  <p className="leading-relaxed">Skateboard +1 mustache fixie paleo lumbersexual.</p>
-                  <a className="mt-3 text-indigo-500 inline-flex items-center">Learn More
-                    <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                      <path d="M5 12h14M12 5l7 7-7 7"></path>
-                    </svg>
-                  </a>
-                </div>
-            </div>
-            <div className="flex flex-wrap -mx-2">
-              <div className="px-2 w-1/2">
-                <div className="flex flex-wrap w-full bg-gray-100 sm:py-24 py-16 sm:px-10 px-6 relative">
-                  <img alt="gallery" className="w-full object-cover h-full object-center block opacity-25 absolute inset-0" src="https://dummyimage.com/542x460" />
-                    <div className="text-center relative z-10 w-full">
-                      <h2 className="text-xl text-gray-900 font-medium title-font mb-2">Shooting Stars</h2>
-                      <p className="leading-relaxed">Skateboard +1 mustache fixie paleo lumbersexual.</p>
-                      <a className="mt-3 text-indigo-500 inline-flex items-center">Learn More
-                        <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                          <path d="M5 12h14M12 5l7 7-7 7"></path>
-                        </svg>
-                      </a>
-                    </div>
-                </div>
-              </div>
-              <div className="px-2 w-1/2">
-                <div className="flex flex-wrap w-full bg-gray-100 sm:py-24 py-16 sm:px-10 px-6 relative">
-                  <img alt="gallery" className="w-full object-cover h-full object-center block opacity-25 absolute inset-0" src="https://dummyimage.com/542x420" />
-                    <div className="text-center relative z-10 w-full">
-                      <h2 className="text-xl text-gray-900 font-medium title-font mb-2">Shooting Stars</h2>
-                      <p className="leading-relaxed">Skateboard +1 mustache fixie paleo lumbersexual.</p>
-                      <a className="mt-3 text-indigo-500 inline-flex items-center">Learn More
-                        <svg fill="none" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" className="w-4 h-4 ml-2" viewBox="0 0 24 24">
-                          <path d="M5 12h14M12 5l7 7-7 7"></path>
-                        </svg>
-                      </a>
-                    </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
     </>
   )
 }

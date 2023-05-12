@@ -4,6 +4,8 @@ import { Bars3Icon, XMarkIcon } from '@heroicons/react/24/outline';
 import Logo from '../assets/logo.png'
 import { Link, useLocation } from 'react-router-dom';
 import SideCheckout from './SideCheckout';
+import { useDispatch, useSelector } from 'react-redux';
+import { setLogout } from '../reducer/user'
 
 const navigation = [
   { name: 'Home', to: '/' },
@@ -13,9 +15,15 @@ const navigation = [
   { name: 'Company', to: '/company' },
 ]
 
+
 export default function Example() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const location = useLocation();
+  const {token} = useSelector(state => state.user);
+  const dispatch = useDispatch();
+  const logout = () => {
+    dispatch(setLogout());
+  }
   return (
     <div className="bg-white">
       <header className="absolute inset-x-0 top-0 z-50">
@@ -54,9 +62,11 @@ export default function Example() {
             <div className='mx-4 cursor-pointer'>
             <SideCheckout/>
             </div>
-            <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">
+            {!token ? <Link to="/login" className="text-sm font-semibold leading-6 text-gray-900">
               Log in <span aria-hidden="true">&rarr;</span>
-            </Link>
+            </Link> : <button className="text-sm font-semibold leading-6 text-gray-900" onClick={logout}>
+              Logout <span aria-hidden="true">&rarr;</span>
+            </button>}
           </div>
         </nav>
         <Dialog as="div" className="lg:hidden" open={mobileMenuOpen} onClose={setMobileMenuOpen}>

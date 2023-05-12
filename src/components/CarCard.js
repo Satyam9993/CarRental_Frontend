@@ -33,7 +33,7 @@ const CarCard = ({ product }) => {
                 </div>
                 <div className="prod-info grid gap-10">
                     <div>
-                        <ul className="flex flex-row justify-center items-center">
+                        {/* <ul className="flex flex-row justify-center items-center">
                             <li className="mr-4 last:mr-0">
                                 <span
                                     className="block p-1 border-2 border-gray-500 rounded-full transition ease-in duration-300">
@@ -58,7 +58,7 @@ const CarCard = ({ product }) => {
                                     <a href="#green" className="block w-6 h-6 bg-green-500 rounded-full"></a>
                                 </span>
                             </li>
-                        </ul>
+                        </ul> */}
                     </div>
                     <div className="flex flex-col md:flex-col justify-between items-center text-gray-900">
                         <div>
