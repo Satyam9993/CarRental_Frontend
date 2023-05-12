@@ -52,7 +52,7 @@ const CheckOutRight = () => {
             durationdate: duration,
             duration: dateDiff,
             location : selectedLocation,
-            amount: calTotal() * 0.08 + calTotal()
+            amount: (calTotal() * dateDiff) * 0.08 + (calTotal() * dateDiff)
         };
         const cars = await fetch(`${BACKEND_URL}/api/pay/create-checkout-session`,
             {
@@ -138,7 +138,7 @@ const CheckOutRight = () => {
                     </div>
                     <div className="w-full flex items-center">
                         <div className="flex-grow">
-                            <span className="text-gray-600">Taxes (GST)*dateDiff</span>
+                            <span className="text-gray-600">Taxes (GST)</span>
                             <p className='text-sm text-blue-500'>This include all kind of taxes.</p>
                         </div>
                         <div className="pl-3">
@@ -152,7 +152,7 @@ const CheckOutRight = () => {
                             <span className="text-gray-800 font-bold">Total</span>
                         </div>
                         <div className="pl-3">
-                            <span className="font-semibold text-gray-400 text-sm">IND</span> <span className="font-semibold">₹{calTotal() * 0.08 + calTotal()}</span>
+                            <span className="font-semibold text-gray-400 text-sm">IND</span> <span className="font-semibold">₹{(calTotal() * dateDiff) * 0.08 + (calTotal() * dateDiff)}</span>
                         </div>
                     </div>
                 </div>
