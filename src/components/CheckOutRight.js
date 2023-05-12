@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const CheckOutRight = () => {
-    const { cart, cars, token, selectedLocation } = useSelector(state => state.user);
+    const { cart, cars, token, selectedLocation, pickuploc } = useSelector(state => state.user);
     const products = cars.filter(c => cart.includes(c._id));
     const navigate = useNavigate();
     const [dateDiff, setDateDiff] = useState(1);
@@ -47,13 +47,27 @@ const CheckOutRight = () => {
         if (!token) {
             navigate("/login")
         }
-        const body = {
-            cart: cart,
-            durationdate: duration,
-            duration: dateDiff,
-            location : selectedLocation,
-            amount: (calTotal() * dateDiff) * 0.08 + (calTotal() * dateDiff)
-        };
+        let body;
+        if(pickuploc.address){
+            body = {
+                cart: cart,
+                durationdate: duration,
+                duration: dateDiff,
+                location : selectedLocation,
+                pickup_loc: pickuploc,
+                auto_pickup : false,
+                amount: (calTotal() * dateDiff) * 0.08 + (calTotal() * dateDiff)
+            };
+        }else{
+            body = {
+                cart: cart,
+                durationdate: duration,
+                duration: dateDiff,
+                location : selectedLocation,
+                auto_pickup : true,
+                amount: (calTotal() * dateDiff) * 0.08 + (calTotal() * dateDiff)
+            };
+        }
         const cars = await fetch(`${BACKEND_URL}/api/pay/create-checkout-session`,
             {
                 method: 'POST',
@@ -61,9 +75,7 @@ const CheckOutRight = () => {
                 body: JSON.stringify(body)
             }
         );
-        console.log(cars);
         const sessionurl = await cars.json();
-        console.log(sessionurl);
         if(sessionurl.url){
             window.location = sessionurl.url;
         }

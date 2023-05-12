@@ -1,7 +1,9 @@
 import React from 'react';
 import Map from './Map';
+import { useSelector } from 'react-redux';
 
 const Checkoutleft = () => {
+  const {pickuploc} = useSelector(state => state.user);
   return (
     <>
       <div className="px-3 md:w-5/12">
@@ -11,15 +13,15 @@ const Checkoutleft = () => {
               <span className="text-gray-600 font-semibold">Contact</span>
             </div>
             <div className="flex-grow pl-3">
-              <span>Scott Windon</span>
+              <span>6698545865</span>
             </div>
           </div>
           <div className="w-full flex items-center">
             <div className="w-32">
-              <span className="text-gray-600 font-semibold">Billing Address</span>
+              <span className="text-gray-600 font-semibold">Pick-Up Address</span>
             </div>
             <div className="flex-grow pl-3">
-              <span>123 George Street, Sydney, NSW 2000 Australia</span>
+              <span>{pickuploc.address === null ? "Select Address" : pickuploc.address}</span>
             </div>
           </div>
         </div>

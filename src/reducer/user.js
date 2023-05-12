@@ -5,7 +5,8 @@ const initialState = {
   token: null,
   pickuploc: {
     long : 75.8577,
-    lat : 22.7196
+    lat : 22.7196,
+    address : null
   },
   cars: [
     {

@@ -51,12 +51,6 @@ const Map = () => {
             const { lng, lat } = e.lngLat;
             setLng(lng);
             setLat(lat);
-            dispatch(setPickUpLoc({
-                pickuploc : {
-                    long : lng,
-                    lat : lat
-                }
-            }))
             if (marker) {
                 marker.remove();
             }
@@ -72,6 +66,13 @@ const Map = () => {
             const geocoderData = await geocoderRes.json();
             const address = geocoderData.features[0].place_name;
             setLocationInfo({ lng, lat, address });
+            dispatch(setPickUpLoc({
+                pickuploc : {
+                    long : lng,
+                    lat : lat,
+                    address : address
+                }
+            }))
         });
 
         return () => map.remove();
@@ -79,7 +80,7 @@ const Map = () => {
 
     return (
         <div className="w-full h-[500px]">
-            <div className="flex w-full bg-white text-black p-4">
+            {/* <div className="flex w-full bg-white text-black p-4">
                 <h2 className="text-xl font-bold mb-2">Location Info</h2>
                 {locationInfo ? (
                     <>
@@ -90,7 +91,7 @@ const Map = () => {
                 ) : (
                     <p>Click on the map to select a location</p>
                 )}
-            </div>
+            </div> */}
             <div className="w-full h-full" ref={mapContainerRef} />
         </div>)
 };
