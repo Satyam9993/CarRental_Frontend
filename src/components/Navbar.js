@@ -8,8 +8,8 @@ import SideCheckout from './SideCheckout';
 const navigation = [
   { name: 'Home', to: '/' },
   { name: 'Product', to: '/products' },
-  { name: 'Features', to: '/' },
-  { name: 'Marketplace', to: '/' },
+  // { name: 'Features', to: '/' },
+  // { name: 'Marketplace', to: '/' },
   { name: 'Company', to: '/company' },
 ]
 
