@@ -1,10 +1,13 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { setRemovecart } from '../reducer/user';
+import { useNavigate } from 'react-router-dom';
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const CheckOutRight = () => {
-    const { cart, cars } = useSelector(state => state.user);
+    const { cart, cars, token, selectedLocation } = useSelector(state => state.user);
     const products = cars.filter(c => cart.includes(c._id));
+    const navigate = useNavigate();
     const [dateDiff, setDateDiff] = useState(1);
     const today = new Date().toISOString().split('T')[0];
     const [duration, setDuration] = useState({
@@ -39,6 +42,33 @@ const CheckOutRight = () => {
         }
         return t;
     }
+
+    const checkout = async () => {
+        if (!token) {
+            navigate("/login")
+        }
+        const body = {
+            cart: cart,
+            durationdate: duration,
+            duration: dateDiff,
+            location : selectedLocation,
+            amount: calTotal() * 0.08 + calTotal()
+        };
+        const cars = await fetch(`${BACKEND_URL}/api/pay/create-checkout-session`,
+            {
+                method: 'POST',
+                headers: { "Content-Type": "application/json", "auth-token": `Bearer ${token}` },
+                body: JSON.stringify(body)
+            }
+        );
+        console.log(cars);
+        const sessionurl = await cars.json();
+        console.log(sessionurl);
+        if(sessionurl.url){
+            window.location = sessionurl.url;
+        }
+    };
+
     return (
         <>
             <div className="px-3 md:w-7/12 lg:pr-10">
@@ -127,7 +157,7 @@ const CheckOutRight = () => {
                     </div>
                 </div>
                 <div className='flex items-center justify-end'>
-                    <button className=' bg-black hover:bg-[#fa5c43] p-4 text-bold text-lg text-white w-1/2 ho'>
+                    <button className=' bg-black hover:bg-[#fa5c43] p-4 text-bold text-lg text-white w-1/2 ho' onClick={checkout}>
                         Book Now
                     </button>
                 </div>
